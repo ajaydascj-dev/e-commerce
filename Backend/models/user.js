@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const userModel = new mongoose.Schema(
   {
-    name: {
+    username: {
       type: String,
       required: [true, "name is required"],
     },
@@ -19,7 +19,7 @@ const userModel = new mongoose.Schema(
     },
     isAdmin: {
       type: Boolean,
-      default: true,
+      default: false,
     },
   },
   { timestamps: true }
