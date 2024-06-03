@@ -1,18 +1,37 @@
 import { user } from "../models/user.js";
-import asyncHandler from "../middlewares/asyncHandler.js";
+import asyncHandler from "express-async-handler";
+import bcrypt from "bcrypt";
 
 //Checking if user exist
-const existingUser = async (email) => {
+const existingUser = asyncHandler(async (email) => {
   const result = await user.findOne({ email });
   return result;
-};
+});
 
+const findbyId = asyncHandler(async (id) => {
+  const result = await user.findById({_id : id});
+  return result;
+});
 // Register new user
-const userRegister = async (data) => {
+const createUser = asyncHandler(async (data) => {
   const { username, email, password } = data;
-  const newUser = new user({ username, email, password });
+  const saltRounds = 10;
+  //bycrypting user password
+  const hashedPassword = await bcrypt.hash(password, saltRounds);
+  const newUser = new user({ username, email, password: hashedPassword });
   const result = await newUser.save();
   return result;
-};
+});
 
-export default { existingUser, userRegister };
+// Get all users
+
+const allUser = asyncHandler(async () => {
+  const result = await user.find({});
+  return result;
+});
+
+const deleteUser = asyncHandler(async (id) => {
+  const result = await user.deleteOne({_id : id});
+  return result ;
+})
+export default { existingUser, createUser, allUser , findbyId , deleteUser};

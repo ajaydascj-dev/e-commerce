@@ -1,0 +1,10 @@
+const constants = {
+  BADREQUEST: 400,
+  UNAUTHORIZED: 401,
+  PAYMENTREQUIRED: 402,
+  FORBIDDEN: 403,
+  NOTFOUND: 404,
+  SERVERERROR: 500,
+};
+
+export { constants };
