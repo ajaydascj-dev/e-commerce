@@ -124,23 +124,29 @@ const updateUser = asyncHandler(async (req, res) => {
   }
 });
 
-// Delete User 
+// Delete User
 
-const removeUser = asyncHandler(async(req,res) => {
-       const id = req.params.id ;
-       const deleteUser = await userServices.deleteUser(id) ;
-      if(deleteUser.deletedCount != 0) {
-        res.status(200).json({
-          status : "success" ,
-          message : "Deleted Successfully"
-        })
-        return
-      }else {
-        res.status(404);
-        throw new Error("User Not Found")
-      }
+const removeUser = asyncHandler(async (req, res) => {
+  const id = req.params.id;
+  const deleteUser = await userServices.deleteUser(id);
+  if (deleteUser.deletedCount != 0) {
+    res.status(200).json({
+      status: "success",
+      message: "Deleted Successfully",
+    });
+    return;
+  } else {
+    res.status(404);
+    throw new Error("User Not Found");
+  }
+});
 
-
-})
-
-export { registerUser, loginUser, userLogout, listUsers, userById, updateUser , removeUser };
+export {
+  registerUser,
+  loginUser,
+  userLogout,
+  listUsers,
+  userById,
+  updateUser,
+  removeUser,
+};
