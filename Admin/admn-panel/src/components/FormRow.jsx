@@ -1,19 +1,26 @@
-import { TextField, Button, Stack, makeStyles } from "@mui/material";
+import { TextField, Button, Stack } from "@mui/material";
+import { makeStyles } from "@mui/styles";
 
-import React from "react";
-const useStyle = makeStyles(theme => ({
-    root : {
-        '& MuiFormControl-root' : {
-            width : '100%' 
-        }
-    } 
-}))
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: "100%",
+  },
+}));
 
-const FormRow = ({type , name , value , handleChange , LabelText }) => {
-    const classes = useStyle()
-  return <div className="form-row">
-          <TextField label={LabelText} type={type} className={classes.root}/>
-  </div>;
+const FormRow = ({ type, name, value, handleChange, LabelText }) => {
+  const classes = useStyles();
+  return (
+    <div className="form-row">
+      <TextField
+        label={LabelText}
+        type={type}
+        className={classes.root}
+        value={value}
+        name={name}
+        onChange={handleChange}
+      />
+    </div>
+  );
 };
 
 export default FormRow;
