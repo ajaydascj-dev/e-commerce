@@ -21,7 +21,7 @@ const Landing = () => {
             Consequuntur quaerat molestias repudiandae adipisci placeat
             doloremque optio ea debitis aperiam cumque.
           </p>
-          <Link to="login" className="btn btn-hero">
+          <Link to="/login" className="btn btn-hero">
             Login
           </Link>
         </div>

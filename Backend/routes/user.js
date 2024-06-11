@@ -16,7 +16,7 @@ router
   .route("/")
   .post(registerUser)
   .get(authenticate, authorizeAdmin, listUsers);
-router.route("/auth").post(loginUser);
+router.route("/auth/login").post(loginUser);
 router.route("/logout").post(userLogout);
 router
   .route("/:id")

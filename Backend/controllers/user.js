@@ -2,6 +2,7 @@ import asyncHandler from "express-async-handler";
 import userServices from "../services/user.js";
 import { generateToken } from "../utils/createToken.js";
 import bcrypt from "bcrypt";
+import { BadRequestError, UnauthorizedError } from "../errors/index.js";
 
 // New User
 const registerUser = asyncHandler(async (req, res) => {
@@ -31,7 +32,7 @@ const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    throw new Error("Please fill all the input fields.");
+    throw new BadRequestError("Please fill all the input fields.");
   }
 
   const existingUser = await userServices.existingUser(email);
@@ -46,19 +47,21 @@ const loginUser = asyncHandler(async (req, res) => {
       generateToken(res, existingUser._id, existingUser.isAdmin);
 
       res.status(201).json({
-        _id: existingUser._id,
-        username: existingUser.username,
-        email: existingUser.email,
-        isAdmin: existingUser.isAdmin,
+        user: {
+          id: existingUser._id,
+          username: existingUser.username,
+          email: existingUser.email,
+          isAdmin: existingUser.isAdmin,
+        },
       });
       return;
     } else {
-      res.status(401);
-      throw new Error("Wrong password");
+      throw new UnauthorizedError("Wrong password");
     }
   }
-
-  throw new Error("This mail doesn't have an account.Please register");
+  throw new BadRequestError(
+    "This mail doesn't have an account.Please register"
+  );
 });
 
 // Logout User
