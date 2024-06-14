@@ -1,10 +1,15 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import userFetch from "../../utils/axios";
+import {
+  addUserToLocalStorage,
+  getUserFromLocalStorage,
+  removeUserFromLocalStorage,
+} from "../../utils/localStorage";
 
 const initialState = {
   isLoading: false,
-  user: null,
+  user: getUserFromLocalStorage(),
 };
 
 export const loginUser = createAsyncThunk(
@@ -25,19 +30,20 @@ const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.pending, (state) => {
-        state.isLoading = true ;
+        state.isLoading = true;
       })
 
-      .addCase(loginUser.fulfilled, (state, {payload}) => {
-        const {user} = payload;
-        state.isLoading = false ;
-        state.user = user ;
-        toast.success(`Hello There ${user.username}`)
+      .addCase(loginUser.fulfilled, (state, { payload }) => {
+        const { user } = payload;
+        state.isLoading = false;
+        state.user = user;
+        addUserToLocalStorage(user);
+        toast.success(`Welcome Back ${user.username}`);
       })
 
-      .addCase(loginUser.rejected, (state , {payload}) => {
-            state.isLoading = false ;
-            toast.error(payload)
+      .addCase(loginUser.rejected, (state, { payload }) => {
+        state.isLoading = false;
+        toast.error(payload);
       });
   },
 });

@@ -331,6 +331,11 @@ ul {
   display: flex;
   align-items: center;
   gap: 5px;
+  background: none;
+  border: none;
+}
+.logo img {
+  max-width: 100%;
 }
 .logo h1 {
   margin-bottom: 0px;

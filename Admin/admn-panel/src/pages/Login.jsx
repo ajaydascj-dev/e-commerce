@@ -3,29 +3,41 @@ import { Logo, FormRow, useForm, Button } from "../components";
 import Wrapper from "../assets/wrappers/Login";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../features/users/userSlice";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const intialState = {
   email: "",
   password: "",
-  isAdmin : true 
+  isAdmin: true,
 };
 
 const Login = () => {
   const { values, setValues, handleChange } = useForm(intialState);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { user, isLoading } = useSelector((store) => store.user);
   const onSubmit = (e) => {
     e.preventDefault();
     const { email, password } = values;
     if (!email || !password) {
       toast.error("Please fill out all fields");
-      return
+      return;
     }
 
-      dispatch(loginUser({email , password}))
-      return
-   
+    dispatch(loginUser({ email, password }));
+    return;
   };
+
+  useEffect(() => {
+    if (user) {
+      if (user.isAdmin) {
+        setTimeout(() => {
+          navigate("/");
+        }, 2000);
+      }
+    }
+  }, [user]);
   return (
     <Wrapper className="full-page">
       <form className="form" onSubmit={onSubmit}>
@@ -45,7 +57,11 @@ const Login = () => {
           handleChange={handleChange}
         />
 
-        <Button text="Submit" type="submit" disabled={isLoading}/>
+        <Button
+          text={isLoading ? "loading..." : "submit"}
+          type="submit"
+          disabled={isLoading}
+        />
 
         <p>Not a member please register with our shopify site</p>
       </form>

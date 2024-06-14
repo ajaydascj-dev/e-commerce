@@ -1,11 +1,11 @@
 import logo from '../assets/images/logo.ico'
 
-const Logo = () => {
+const Logo = ({handleDrawer}) => {
   return (
-    <div className="logo">
+    <button className="logo" type='button'  onClick={()=>{handleDrawer && handleDrawer(false)}}>
     <img src={logo} alt="logo" />
     <h1>HOPSY</h1>
-    </div>
+    </button>
   )
 }
 
