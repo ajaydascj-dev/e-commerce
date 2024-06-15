@@ -3,42 +3,15 @@ import { styled, useTheme } from "@mui/material/styles";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import List from "@mui/material/List";
 import CssBaseline from "@mui/material/CssBaseline";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import { makeStyles } from "@mui/styles";
-import { DropMenu, Logo } from "../components";
-import { Link } from "react-router-dom";
-import QueryStatsIcon from "@mui/icons-material/QueryStats";
-import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
-import Inventory2Icon from "@mui/icons-material/Inventory2";
-import SettingsIcon from "@mui/icons-material/Settings";
-import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
+import { DropMenu, Logo, NavLinks } from "../components";
 
 const drawerWidth = 240;
-const icons = [
-  <QueryStatsIcon />,
-  <SupervisedUserCircleIcon />,
-  <Inventory2Icon />,
-  <ProductionQuantityLimitsIcon />,
-  <SettingsIcon />,
-];
-const useStyles = makeStyles((theme) => ({
-  Link: {
-    textDecoration: "none",
-    color: "rgba(0, 0, 0, 0.54)",
-  },
-}));
-const handleLogout = () => {
-  console.log("Logout succes");
-};
+
 const openedMixin = (theme) => ({
   width: drawerWidth,
   transition: theme.transitions.create("width", {
@@ -106,7 +79,6 @@ const Drawer = styled(MuiDrawer, {
 
 const SideNav = () => {
   const theme = useTheme();
-  const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const [head, setHead] = React.useState("Stats");
 
@@ -134,14 +106,10 @@ const SideNav = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
+          <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
             {head}
           </Typography>
-          <DropMenu
-            label="Account"
-            SubLabel={["Logout"]}
-            handleMenuClick={handleLogout}
-          />
+          <DropMenu />
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
@@ -149,44 +117,7 @@ const SideNav = () => {
           <Logo handleDrawer={setOpen} />
         </DrawerHeader>
         <Divider />
-        <List>
-          {["Stats", "Users", "Products", "Orders", "Profile"].map(
-            (text, index) => (
-              <Link
-                to={index == 0 ? `/` : `${text}`}
-                className={classes.Link}
-                key={index}
-                onClick={() => {
-                  setHead(text);
-                }}
-              >
-                <ListItem key={text} disablePadding sx={{ display: "block" }}>
-                  <ListItemButton
-                    sx={{
-                      minHeight: 48,
-                      justifyContent: open ? "initial" : "center",
-                      px: 2.5,
-                    }}
-                  >
-                    <ListItemIcon
-                      sx={{
-                        minWidth: 0,
-                        mr: open ? 3 : "auto",
-                        justifyContent: "center",
-                      }}
-                    >
-                      {icons[index]}
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={text}
-                      sx={{ opacity: open ? 1 : 0 }}
-                    />
-                  </ListItemButton>
-                </ListItem>
-              </Link>
-            )
-          )}
-        </List>
+        <NavLinks setHead={setHead} />
       </Drawer>
     </>
   );

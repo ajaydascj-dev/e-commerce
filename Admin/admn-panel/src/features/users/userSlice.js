@@ -26,6 +26,12 @@ export const loginUser = createAsyncThunk(
 const userSlice = createSlice({
   name: "user",
   initialState,
+  reducers: {
+    logoutUser: (state) => {
+      state.user = null;
+      removeUserFromLocalStorage();
+    },
+  },
 
   extraReducers: (builder) => {
     builder
@@ -36,9 +42,14 @@ const userSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, { payload }) => {
         const { user } = payload;
         state.isLoading = false;
-        state.user = user;
-        addUserToLocalStorage(user);
-        toast.success(`Welcome Back ${user.username}`);
+        if(user.isAdmin){
+          state.user = user;
+          addUserToLocalStorage(user);
+          toast.success(`Welcome Back ${user.username}`);
+        }else {
+          toast.error(`You are not authorized`);
+        }
+       
       })
 
       .addCase(loginUser.rejected, (state, { payload }) => {
@@ -48,4 +59,5 @@ const userSlice = createSlice({
   },
 });
 
+export const { logoutUser } = userSlice.actions;
 export default userSlice.reducer;

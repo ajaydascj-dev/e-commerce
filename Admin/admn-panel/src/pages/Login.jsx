@@ -31,11 +31,9 @@ const Login = () => {
 
   useEffect(() => {
     if (user) {
-      if (user.isAdmin) {
-        setTimeout(() => {
-          navigate("/");
-        }, 2000);
-      }
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
     }
   }, [user]);
   return (
