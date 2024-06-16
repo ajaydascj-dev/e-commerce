@@ -1,13 +1,13 @@
 export const addUserToLocalStorage = (user) => {
-    localStorage.setItem('user' ,JSON.stringify(user))
+    window.localStorage.setItem('user' ,JSON.stringify(user))
 };
 
 export const removeUserFromLocalStorage = () => {
-   localStorage.removeItem('user');
+   window.localStorage.removeItem('user');
 }
 
 export const getUserFromLocalStorage = () => {
-    const result = localStorage.removeItem('user');
+    const result = window.localStorage.removeItem('user');
     const user = result?JSON.parse(result) : null;
     return user ;
 }

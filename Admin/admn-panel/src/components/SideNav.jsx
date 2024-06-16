@@ -78,16 +78,11 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 const SideNav = () => {
-  const theme = useTheme();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const [head, setHead] = React.useState("Stats");
 
   const handleDrawerOpen = () => {
     setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
   };
   return (
     <>
@@ -112,8 +107,8 @@ const SideNav = () => {
           <DropMenu />
         </Toolbar>
       </AppBar>
-      <Drawer variant="permanent" open={open}>
-        <DrawerHeader>
+      <Drawer variant="permanent" open={open} >
+        <DrawerHeader sx={{ justifyContent: "center" , alignItems : 'center'}}>
           <Logo handleDrawer={setOpen} />
         </DrawerHeader>
         <Divider />

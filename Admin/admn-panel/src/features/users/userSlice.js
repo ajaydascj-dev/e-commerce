@@ -23,6 +23,24 @@ export const loginUser = createAsyncThunk(
     }
   }
 );
+
+// export const updateUser = createAsyncThunk(
+//   "user/update",
+//   async(user ,thunkAPI) => {
+//     try{
+//         const response = await userFetch.put("/auth/update" , user ,{
+//           withCredentials:true
+//         })
+//          console.log(data)
+//         return response.data
+//     }catch(error) {
+//       console.log(error)
+//       return thunkAPI.rejectWithValue(error.response.data.message)
+//     }
+//   }
+// );
+
+
 const userSlice = createSlice({
   name: "user",
   initialState,
@@ -59,5 +77,5 @@ const userSlice = createSlice({
   },
 });
 
-export const { logoutUser } = userSlice.actions;
+export const { logoutUser , updateUser} = userSlice.actions;
 export default userSlice.reducer;

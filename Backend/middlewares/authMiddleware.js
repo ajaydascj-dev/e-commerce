@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import { UnauthorizedError } from "../errors/index.js";
 
 const authenticate = (req, res, next) => {
   let token;
@@ -10,8 +11,8 @@ const authenticate = (req, res, next) => {
     req.user = decoded;
     next();
   } else {
-    res.status(401);
-    next(1);
+   throw new UnauthorizedError("No Token");
+    
   }
 };
 
@@ -20,7 +21,7 @@ const authorizeAdmin = (req, res, next) => {
     next();
   } else {
     res.status(401);
-    next(1);
+    throw new UnauthorizedError("You are not authorized");
   }
 };
 

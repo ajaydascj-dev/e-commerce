@@ -19,7 +19,7 @@ router
 router.route("/auth/login").post(loginUser);
 router.route("/auth/logout").post(userLogout);
 router
-  .route("/:id")
+  .route("/auth/update")
   .get(authenticate, userById)
   .put(authenticate, updateUser)
   .delete(authenticate, authorizeAdmin, removeUser);

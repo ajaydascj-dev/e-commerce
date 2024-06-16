@@ -14,7 +14,7 @@ const Links = [
     path: "Orders",
     icon: <ProductionQuantityLimitsIcon />,
   },
-  { id: 5, text: "Profile", path: "Profile", icon: <SettingsIcon /> },
+  { id: 5, text: "Settings", path: "Settings", icon: <SettingsIcon /> },
 ];
 
 

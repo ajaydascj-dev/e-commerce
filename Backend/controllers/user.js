@@ -52,6 +52,8 @@ const loginUser = asyncHandler(async (req, res) => {
           username: existingUser.username,
           email: existingUser.email,
           isAdmin: existingUser.isAdmin,
+          createdAt : existingUser.createdAt,
+          updatedAt : existingUser.updatedAt
         },
       });
       return;
@@ -103,8 +105,8 @@ const userById = asyncHandler(async (req, res) => {
 
 // update user by id
 const updateUser = asyncHandler(async (req, res) => {
-  const id = req.params.id;
-  const user = await userServices.findbyId(id);
+
+  const user = await userServices.findbyId(req.user.userId);
 
   if (user) {
     user.username = req.body.username || user.username;
@@ -122,8 +124,7 @@ const updateUser = asyncHandler(async (req, res) => {
       data: updatedUser,
     });
   } else {
-    res.status(404);
-    throw new Error("User Not Found");
+    throw new BadRequestError("User Not Found");
   }
 });
 
