@@ -9,7 +9,7 @@ import Tooltip from "@mui/material/Tooltip";
 import Logout from "@mui/icons-material/Logout";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "../features/users/userSlice";
-
+import { toast } from "react-toastify";
 
 export default function DropdownMenu() {
   const dispatch = useDispatch();
@@ -21,8 +21,12 @@ export default function DropdownMenu() {
 
   const handleClose = () => {
     setAnchorEl(null);
-    dispatch(logoutUser());
  
+  };
+
+  const logOut = () => {
+    dispatch(logoutUser());
+    toast.success("Logged Out Succefully");
   };
   return (
     <React.Fragment>
@@ -75,7 +79,7 @@ export default function DropdownMenu() {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={logOut}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>

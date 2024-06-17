@@ -1,44 +1,26 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
-import userFetch from "../../utils/axios";
-import {
-  addUserToLocalStorage,
-  getUserFromLocalStorage,
-  removeUserFromLocalStorage,
-} from "../../utils/localStorage";
+import { loginUserThunk, updateUserThunk } from "./userThunk";
 
 const initialState = {
   isLoading: false,
-  user: getUserFromLocalStorage(),
+  user: null,
+  users : null,
 };
 
 export const loginUser = createAsyncThunk(
   "user/login",
   async (user, thunkAPI) => {
-    try {
-      const resp = await userFetch.post("/auth/login", user);
-      return resp.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data.message);
-    }
+    return loginUserThunk("/auth/login",user,thunkAPI)
   }
 );
 
-// export const updateUser = createAsyncThunk(
-//   "user/update",
-//   async(user ,thunkAPI) => {
-//     try{
-//         const response = await userFetch.put("/auth/update" , user ,{
-//           withCredentials:true
-//         })
-//          console.log(data)
-//         return response.data
-//     }catch(error) {
-//       console.log(error)
-//       return thunkAPI.rejectWithValue(error.response.data.message)
-//     }
-//   }
-// );
+export const updateUser = createAsyncThunk(
+  "user/update",
+  async(user ,thunkAPI) => {
+    return updateUserThunk("/auth/update" ,user,thunkAPI)
+  }
+);
 
 
 const userSlice = createSlice({
@@ -47,7 +29,6 @@ const userSlice = createSlice({
   reducers: {
     logoutUser: (state) => {
       state.user = null;
-      removeUserFromLocalStorage();
     },
   },
 
@@ -62,7 +43,6 @@ const userSlice = createSlice({
         state.isLoading = false;
         if(user.isAdmin){
           state.user = user;
-          addUserToLocalStorage(user);
           toast.success(`Welcome Back ${user.username}`);
         }else {
           toast.error(`You are not authorized`);
@@ -73,9 +53,35 @@ const userSlice = createSlice({
       .addCase(loginUser.rejected, (state, { payload }) => {
         state.isLoading = false;
         toast.error(payload);
+      })
+
+      // update user
+      .addCase(updateUser.pending, (state) => {
+        state.isLoading = true;
+      })
+
+      .addCase(updateUser.fulfilled, (state, action) => {
+        // console.log(payload)
+        const { user } = action.payload;
+        console.log(user)
+        state.user = user ;
+        state.isLoading = false;
+        if(action.meta.arg.password) {
+          toast.success(`Password Updated Successfully`);
+          state.user = null ;
+          return
+        }else {
+          toast.success(`User Updated Successfully`);
+        }
+        
+      })
+
+      .addCase(updateUser.rejected, (state, { payload }) => {
+        state.isLoading = false;
+        toast.error(payload);
       });
   },
 });
 
-export const { logoutUser , updateUser} = userSlice.actions;
+export const { logoutUser } = userSlice.actions;
 export default userSlice.reducer;

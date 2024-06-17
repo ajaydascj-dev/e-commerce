@@ -13,6 +13,7 @@ const Profile = () => {
   <div className="form" style={{display:"flex", flexDirection:"column",alignItems:"start"}}>
      <Typography>User Name : {user?.username}</Typography>
      <Typography>Email : {user?.email}</Typography>
+     <Typography>Address : {user?.address}</Typography>
      <Typography>isAdmin : {user?.isAdmin ? 'True' : 'False'}</Typography>
      <Typography>Created at : {user?.createdAt}</Typography>
      <Typography>Updated at : {user?.updatedAt}</Typography>

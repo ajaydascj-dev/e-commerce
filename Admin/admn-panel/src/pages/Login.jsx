@@ -13,7 +13,7 @@ const intialState = {
 };
 
 const Login = () => {
-  const { values, setValues, handleChange } = useForm(intialState);
+  const { values, handleChange } = useForm(intialState);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user, isLoading } = useSelector((store) => store.user);

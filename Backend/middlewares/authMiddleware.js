@@ -2,17 +2,22 @@ import jwt from "jsonwebtoken";
 import { UnauthorizedError } from "../errors/index.js";
 
 const authenticate = (req, res, next) => {
-  let token;
   // Read JWT from 'jwt' cookie
+  const authHeader = req.headers.authorization;
 
-  token = req.cookies.jwt;
-  if (token) {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;
+  if (!authHeader || !authHeader.startsWith("Bearer")) {
+    throw new UnauthorizedError("Authentication invalid");
+  }
+
+  const token = authHeader.split(" ")[1];
+
+  try {
+    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    // attach the user to the job routes
+    req.user = payload;
     next();
-  } else {
-   throw new UnauthorizedError("No Token");
-    
+  } catch (error) {
+    throw new UnauthorizedError("Authentication invalid");
   }
 };
 

@@ -44,7 +44,7 @@ const loginUser = asyncHandler(async (req, res) => {
     );
 
     if (isPasswordValid) {
-      generateToken(res, existingUser._id, existingUser.isAdmin);
+     const token =  generateToken(res, existingUser._id, existingUser.isAdmin);
 
       res.status(201).json({
         user: {
@@ -52,9 +52,12 @@ const loginUser = asyncHandler(async (req, res) => {
           username: existingUser.username,
           email: existingUser.email,
           isAdmin: existingUser.isAdmin,
+          address : existingUser.address,
           createdAt : existingUser.createdAt,
-          updatedAt : existingUser.updatedAt
+          updatedAt : existingUser.updatedAt,
+          token 
         },
+    
       });
       return;
     } else {
@@ -119,9 +122,21 @@ const updateUser = asyncHandler(async (req, res) => {
       const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
       user.password = hashedPassword;
     }
+   
+    
     const updatedUser = await user.save();
+    const token =  generateToken(res, updatedUser._id, updatedUser.isAdmin);
     res.json({
-      data: updatedUser,
+      user: {
+        id: updatedUser._id,
+        username: updatedUser.username,
+        email: updatedUser.email,
+        isAdmin: updatedUser.isAdmin,
+        address : updatedUser.address,
+        createdAt : updatedUser.createdAt,
+        updatedAt : updatedUser.updatedAt,
+        token 
+      },
     });
   } else {
     throw new BadRequestError("User Not Found");
