@@ -71,10 +71,6 @@ const loginUser = asyncHandler(async (req, res) => {
 
 // Logout User
 const userLogout = asyncHandler(async (req, res) => {
-  res.cookie("jwt", "", {
-    httpOnly: true,
-    expires: new Date(),
-  });
 
   res.status(200).json({
     message: "Logged out successfully",
@@ -86,7 +82,7 @@ const listUsers = asyncHandler(async (req, res) => {
   const users = await userServices.allUser();
   res.status(200).json({
     status: "success",
-    data: users,
+    users: users,
   });
 });
 
@@ -126,7 +122,7 @@ const updateUser = asyncHandler(async (req, res) => {
     
     const updatedUser = await user.save();
     const token =  generateToken(res, updatedUser._id, updatedUser.isAdmin);
-    res.json({
+    res.status(200).json({
       user: {
         id: updatedUser._id,
         username: updatedUser.username,
@@ -160,6 +156,32 @@ const removeUser = asyncHandler(async (req, res) => {
   }
 });
 
+const updateRole = asyncHandler(async(req,res) => {
+  const id = req.params.id ;
+  const user = await userServices.findbyId(id);
+
+  if(user) {
+    user.isAdmin = req.body.isAdmin || user.isAdmin;
+    const updatedUser = await user.save();
+
+    res.status(200).json({
+      user: {
+        id: updatedUser._id,
+        username: updatedUser.username,
+        email: updatedUser.email,
+        isAdmin: updatedUser.isAdmin,
+        address : updatedUser.address,
+        createdAt : updatedUser.createdAt,
+        updatedAt : updatedUser.updatedAt,
+        token 
+      },
+  });
+
+  } else {
+    throw new BadRequestError("User Not Found");
+  }
+
+})
 export {
   registerUser,
   loginUser,
@@ -168,4 +190,5 @@ export {
   userById,
   updateUser,
   removeUser,
+  updateRole
 };

@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
-import { loginUserThunk, updateUserThunk } from "./userThunk";
+import { allUsersThunk, loginUserThunk, updateUserThunk } from "./userThunk";
 
 const initialState = {
   isLoading: false,
@@ -22,6 +22,19 @@ export const updateUser = createAsyncThunk(
   }
 );
 
+export const allUsers = createAsyncThunk(
+  "users/allUsers" ,
+  async(_,thunkAPI) => {
+    return allUsersThunk("/" , thunkAPI);
+  }
+);
+
+export const updateRole = createAsyncThunk(
+  "user/roleUpdate" ,
+   async(id,role ,thunkAPI) => {
+    return updateUserThunk(`/auth/update/${id}`,role,thunkAPI);
+   }
+)
 
 const userSlice = createSlice({
   name: "user",
@@ -56,12 +69,13 @@ const userSlice = createSlice({
       })
 
       // update user
+
       .addCase(updateUser.pending, (state) => {
         state.isLoading = true;
       })
 
       .addCase(updateUser.fulfilled, (state, action) => {
-        // console.log(payload)
+  
         const { user } = action.payload;
         console.log(user)
         state.user = user ;
@@ -79,7 +93,27 @@ const userSlice = createSlice({
       .addCase(updateUser.rejected, (state, { payload }) => {
         state.isLoading = false;
         toast.error(payload);
-      });
+      })
+
+      // get all users
+
+      .addCase(allUsers.pending, (state) => {
+        state.isLoading = true;
+      })
+
+      .addCase(allUsers.fulfilled, (state, {payload}) => {
+       const {users} = payload ;
+       
+       state.users = users
+        state.isLoading = false;
+     
+       
+      })
+
+      .addCase(allUsers.rejected, (state, { payload }) => {
+        state.isLoading = false;
+        // toast.error(payload);
+      })
   },
 });
 

@@ -26,7 +26,7 @@ const createUser = asyncHandler(async (data) => {
 // Get all users
 
 const allUser = asyncHandler(async () => {
-  const result = await user.find({});
+  const result = await user.find({}).select("-password");
   return result;
 });
 

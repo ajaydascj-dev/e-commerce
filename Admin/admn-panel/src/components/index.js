@@ -7,3 +7,4 @@ export { default as Button } from "./Button";
 export { default as SideNav } from "./SideNav";
 export { default as DropMenu } from "./DropdownMenu";
 export { default as NavLinks } from "./NavLinks";
+export {default as TableMenu } from "./TableMenu"
