@@ -48,7 +48,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
       res.status(201).json({
         user: {
-          id: existingUser._id,
+          _id: existingUser._id,
           username: existingUser.username,
           email: existingUser.email,
           isAdmin: existingUser.isAdmin,
@@ -124,7 +124,7 @@ const updateUser = asyncHandler(async (req, res) => {
     const token =  generateToken(res, updatedUser._id, updatedUser.isAdmin);
     res.status(200).json({
       user: {
-        id: updatedUser._id,
+        _id: updatedUser._id,
         username: updatedUser.username,
         email: updatedUser.email,
         isAdmin: updatedUser.isAdmin,
@@ -161,19 +161,20 @@ const updateRole = asyncHandler(async(req,res) => {
   const user = await userServices.findbyId(id);
 
   if(user) {
-    user.isAdmin = req.body.isAdmin || user.isAdmin;
+    console.log(req.body.isAdmin)
+    user.isAdmin = req.body.isAdmin;
+
     const updatedUser = await user.save();
 
     res.status(200).json({
       user: {
-        id: updatedUser._id,
+        _id: updatedUser._id,
         username: updatedUser.username,
         email: updatedUser.email,
         isAdmin: updatedUser.isAdmin,
         address : updatedUser.address,
         createdAt : updatedUser.createdAt,
-        updatedAt : updatedUser.updatedAt,
-        token 
+        updatedAt : updatedUser.updatedAt, 
       },
   });
 

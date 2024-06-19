@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
-import { allUsersThunk, loginUserThunk, updateUserThunk } from "./userThunk";
+import { allUsersThunk, loginUserThunk, updateUserThunk,updateRoleThunk } from "./userThunk";
 
 const initialState = {
   isLoading: false,
@@ -31,8 +31,8 @@ export const allUsers = createAsyncThunk(
 
 export const updateRole = createAsyncThunk(
   "user/roleUpdate" ,
-   async(id,role ,thunkAPI) => {
-    return updateUserThunk(`/auth/update/${id}`,role,thunkAPI);
+   async({values} ,thunkAPI) => {
+    return updateRoleThunk(`/auth/update/${values.id}`,{isAdmin:values.isAdmin},thunkAPI);
    }
 )
 
@@ -42,6 +42,8 @@ const userSlice = createSlice({
   reducers: {
     logoutUser: (state) => {
       state.user = null;
+      state.users = null;
+      state.isLoading = false;
     },
   },
 
@@ -111,6 +113,27 @@ const userSlice = createSlice({
       })
 
       .addCase(allUsers.rejected, (state, { payload }) => {
+        state.isLoading = false;
+        // toast.error(payload);
+      })
+ //Update Role
+      .addCase(updateRole.pending, (state) => {
+        state.isLoading = true;
+      })
+
+      .addCase(updateRole.fulfilled, (state, action) => {
+     console.log(action.payload.user)
+     toast.success("Role switched successfully")
+    
+     state.users = state.users.filter(
+      (user) => user._id !== action.meta.arg.values.id
+    )
+    const previousUsers = state.users;
+    state.users = [action.payload.user,...previousUsers]
+     
+      })
+
+      .addCase(updateRole.rejected, (state, { payload }) => {
         state.isLoading = false;
         // toast.error(payload);
       })

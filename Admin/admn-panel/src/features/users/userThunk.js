@@ -43,15 +43,17 @@ export const allUsersThunk = async(url, thunkAPI) => {
   }
 }
 
-const updateRoleThunk = async(url,role,thunkAPI) => {
-  console.log(url,role,thunkAPI)
+export const updateRoleThunk = async(url,role,thunkAPI) => {
+  console.log(thunkAPI.getState().user.user.token)
   try {
-  //   const resp = await userFetch.put(url,role ,{
-  //     headers : {
-  //      Authorization : `Bearer ${thunkAPI.getState().user.user.token}`
-  //     }
-  //  } )
-  //  return resp.data;
+    const resp = await userFetch.put(url,role ,{
+      headers : {
+       Authorization : `Bearer ${thunkAPI.getState().user.user.token}`
+      }
+   } )
+
+   console.log(resp)
+   return resp.data;
 
   }catch(error) {
     console.log(error)

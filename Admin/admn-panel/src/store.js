@@ -11,6 +11,7 @@ import {
     PURGE,
     REGISTER,
   } from 'redux-persist'
+import AlertModalSlice from "./features/AlertModal/AlertModalSlice";
 
 
 const persistConfig = {
@@ -21,6 +22,7 @@ const persistConfig = {
 
 const reducer = combineReducers({
     user : userSlice ,
+    alert : AlertModalSlice
     
 })
 

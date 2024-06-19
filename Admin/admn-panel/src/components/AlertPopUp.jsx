@@ -1,44 +1,45 @@
+import { useDispatch, useSelector } from "react-redux";
+import { toggleAlertModal } from "../features/AlertModal/AlertModalSlice";
+import { Button , Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 
 
-export default function AlertPopUp({state}) {
-    const [open, setOpen] = React.useState();
-  
-    const handleClickOpen = () => {
-      setOpen(true);
-    };
-  
-    const handleClose = () => {
-      setOpen(false);
-    };
-  
+
+
+export default function AlertPopUp({alertHead , alertDesc,agreeTxt,disAgreeText ,handleAgree,values}) {
+
+    const dispatch = useDispatch();
+   
+   const handleSubmit = () => {
+    dispatch(handleAgree({values}))
+    dispatch(toggleAlertModal())
+   }
+    const  {isAlertModalOpen}  = useSelector((store) => store.alert);
+   
     return (
-      <React.Fragment>
-        <Button variant="outlined" onClick={handleClickOpen}>
-          Open alert dialog
-        </Button>
+      <>
         <Dialog
-          open={open}
-          onClose={handleClose}
+          open={isAlertModalOpen}
+          onClose={(e) => dispatch(toggleAlertModal())}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
           <DialogTitle id="alert-dialog-title">
-            {"Use Google's location service?"}
+            {alertHead}
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              Let Google help apps determine location. This means sending anonymous
-              location data to Google, even when no apps are running.
+              {alertDesc}
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>Disagree</Button>
-            <Button onClick={handleClose} autoFocus>
-              Agree
+            <Button variant="outlined" color="warning" onClick={(e) =>dispatch(toggleAlertModal())}>{disAgreeText}</Button>
+            <Button variant="contained" color="error" onClick={(e)=>handleSubmit()} autoFocus>
+              {agreeTxt}
             </Button>
+            
           </DialogActions>
         </Dialog>
-      </React.Fragment>
+      </>
     );
   }
 
