@@ -25,5 +25,6 @@ router
   .put(authenticate, updateUser)
  
 
-  router.route("/auth/update/:id").put(authenticate,authorizeAdmin,updateRole) .delete(authenticate, authorizeAdmin, removeUser);
+  router.route("/auth/update/:id").put(authenticate,authorizeAdmin,updateRole) 
+  router.route("/auth/delete/:id").delete(authenticate, authorizeAdmin, removeUser);
 export default router;

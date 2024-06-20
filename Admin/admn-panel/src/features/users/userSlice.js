@@ -1,11 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
-import { allUsersThunk, loginUserThunk, updateUserThunk,updateRoleThunk } from "./userThunk";
+import { allUsersThunk, loginUserThunk, updateUserThunk,updateRoleThunk, deleteUserThunk } from "./userThunk";
+
 
 const initialState = {
   isLoading: false,
   user: null,
   users : null,
+  slideOpened : false ,
 };
 
 export const loginUser = createAsyncThunk(
@@ -36,6 +38,13 @@ export const updateRole = createAsyncThunk(
    }
 )
 
+export const removeUser = createAsyncThunk(
+  "user/delete",
+  async({values},thunkAPI) => {
+    return deleteUserThunk(`/auth/delete/${values.id}` , thunkAPI)
+  }
+)
+
 const userSlice = createSlice({
   name: "user",
   initialState,
@@ -45,7 +54,14 @@ const userSlice = createSlice({
       state.users = null;
       state.isLoading = false;
     },
+   openSlide: (state) => {
+      state.slideOpened = true
+    },
+    closeSlide: (state) => {
+      state.slideOpened = false
+    },
   },
+  
 
   extraReducers: (builder) => {
     builder
@@ -137,8 +153,30 @@ const userSlice = createSlice({
         state.isLoading = false;
         // toast.error(payload);
       })
+
+      // Delete User 
+
+      .addCase(removeUser.pending, (state) => {
+        state.isLoading = true;
+      })
+
+      .addCase(removeUser.fulfilled, (state, action) => {
+     console.log(action.payload)
+     toast.success("User deleted sucessfully ")
+    
+     state.users = state.users.filter(
+      (user) => user._id !== action.meta.arg.values.id
+    )
+    
+     state.slideOpened = false ;
+      })
+
+      .addCase(removeUser.rejected, (state, { payload }) => {
+        state.isLoading = false;
+        // toast.error(payload);
+      })
   },
 });
 
-export const { logoutUser } = userSlice.actions;
+export const { logoutUser ,openSlide,closeSlide} = userSlice.actions;
 export default userSlice.reducer;

@@ -14,11 +14,11 @@ const findbyId = asyncHandler(async (id) => {
 });
 // Register new user
 const createUser = asyncHandler(async (data) => {
-  const { username, email, password } = data;
+  const { username, email,address, password  } = data;
   const saltRounds = 10;
   //bycrypting user password
   const hashedPassword = await bcrypt.hash(password, saltRounds);
-  const newUser = new user({ username, email, password: hashedPassword });
+  const newUser = new user({ username, email,address, password: hashedPassword });
   const result = await newUser.save();
   return result;
 });

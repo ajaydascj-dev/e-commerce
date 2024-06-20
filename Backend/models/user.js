@@ -12,7 +12,7 @@ const userModel = new mongoose.Schema(
     },
     address: {
       type: String,
-      default : " "
+      required: [true, "address is required"],
     },
     password: {
       type: String,

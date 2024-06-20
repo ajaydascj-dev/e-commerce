@@ -43,6 +43,7 @@ export const allUsersThunk = async(url, thunkAPI) => {
   }
 }
 
+// Update user role
 export const updateRoleThunk = async(url,role,thunkAPI) => {
   console.log(thunkAPI.getState().user.user.token)
   try {
@@ -53,6 +54,26 @@ export const updateRoleThunk = async(url,role,thunkAPI) => {
    } )
 
    console.log(resp)
+   return resp.data;
+
+  }catch(error) {
+    console.log(error)
+    return thunkAPI.rejectWithValue(error.response.data.message);
+  }
+}
+
+// Delete User
+
+export const deleteUserThunk = async(url,thunkAPI) => {
+  console.log(url)
+  try {
+
+    const resp = await userFetch.delete(url,{
+      headers : {
+       Authorization : `Bearer ${thunkAPI.getState().user.user.token}`
+      }
+   } )
+
    return resp.data;
 
   }catch(error) {

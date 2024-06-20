@@ -7,6 +7,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { toggleAlertModal } from "../features/AlertModal/AlertModalSlice";
 import { useDispatch } from "react-redux";
 
+
 export default function TableMenu({ props }) {
   const { cellValues, setAdmin, setId } = props;
   const { row } = cellValues;
@@ -30,11 +31,12 @@ export default function TableMenu({ props }) {
               size="small"
               {...bindTrigger(popupState)}
               endIcon={<ArrowDropDownIcon />}
+              sx={{width:"80px"}}
             >
               {isAdmin ? "Admin" : "User"}
             </Button>
-            <Menu {...bindMenu(popupState)}>
-              <MenuItem
+            <Menu {...bindMenu(popupState)} >
+              <MenuItem 
                 onClick={() => {
                   handleRoles(_id);
                 }}

@@ -6,14 +6,14 @@ import { BadRequestError, UnauthorizedError } from "../errors/index.js";
 
 // New User
 const registerUser = asyncHandler(async (req, res) => {
-  const { username, email, password } = req.body;
-
-  if (!username || !email || !password) {
-    throw new Error("Please fill all the input fields.");
+  const { username, email, password ,address} = req.body;
+ console.log(address)
+  if (!username || !email || !password || !address) {
+    throw new BadRequestError("Please fill all the input fields.");
   }
 
   const userExist = await userServices.existingUser(email);
-  if (userExist) throw new Error("User already Exist");
+  if (userExist) throw new BadRequestError("User already Exist");
 
   const newUser = await userServices.createUser(req.body);
 
@@ -152,7 +152,7 @@ const removeUser = asyncHandler(async (req, res) => {
     return;
   } else {
     res.status(404);
-    throw new Error("User Not Found");
+    throw new BadRequestError("User Not Found");
   }
 });
 

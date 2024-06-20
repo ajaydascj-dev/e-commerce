@@ -1,26 +1,27 @@
 import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { allUsers, updateRole } from "../../features/users/userSlice";
+import { allUsers, closeSlide, openSlide, removeUser, updateRole } from "../../features/users/userSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { TableMenu } from "../../components";
+import {  SlideComponent, TableMenu } from "../../components";
 import AlertPopUp from "../../components/AlertPopUp";
-import { Table } from "@mui/material";
-
+import dateFormater from "../../utils/formateDate";
 
 export default function Users() {
   const [id, setId] = React.useState();
   const [isAdmin, setAdmin] = React.useState();
+  const [user , setUser] = React.useState(null) ;
+  const [switchRole , setSwitchRole] = React.useState(true);
 
   const columns = [
     // { field: "id", headerName: "ID", width: 70 },
     { field: "username", headerName: "User name", width: 130 ,
       renderCell: (params) => {
         const onClick = () => {
-        
-          console.log(params)
-          console.log(``);
+          setId(params.row._id)
+          setSwitchRole(false)
+          setUser(params.row)
+          dispach(openSlide())
         };
-  
         return <div style={{ cursor: 'pointer' }} onClick={onClick}>{params.value}</div>;
       },
     },
@@ -44,16 +45,16 @@ export default function Users() {
   const dispach = useDispatch();
 
   React.useEffect(() => {
-    console.log("hi");
     dispach(allUsers());
+  
 
   }, []);
   const { users, isLoading } = useSelector((store) => store.user);
-  // for(let i = 0 ; i < users.length;i++) {
-  //   console.log(users[i])
-  // }
+ 
   return (
     <>
+     {user && <SlideComponent  props={user}/>} 
+      {/* <Card/> */}
      {users && <div
         style={{
           height: "100vh",
@@ -77,7 +78,8 @@ export default function Users() {
           />
         </div>
       </div> }
-      <AlertPopUp
+    
+     {switchRole &&  <AlertPopUp
         alertHead="Are sure you want to switch Role?"
         alertDesc={
           !isAdmin
@@ -88,8 +90,18 @@ export default function Users() {
         disAgreeText="Cancel"
         handleAgree={updateRole}
         values={{ id, isAdmin }}
-      />
+      />}
+      {!switchRole && <AlertPopUp
+        alertHead="Are sure you want delete this user?"
+        alertDesc="This user will deleted forever"
+        agreeTxt="Delete"
+        disAgreeText="Cancel"
+        handleAgree={removeUser}
+        values={{id}}
+        
+      /> }
     </>
+     
     
   );
 }
