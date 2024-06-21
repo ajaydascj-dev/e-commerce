@@ -9,7 +9,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { SlideComponent, TableMenu } from "../../components";
 import AlertPopUp from "../../components/AlertPopUp";
-
+import { Card } from "@mui/material";
 export default function Users() {
   const [id, setId] = React.useState();
   const [isAdmin, setAdmin] = React.useState();
@@ -68,7 +68,7 @@ export default function Users() {
     <>
       {user && <SlideComponent props={user} />}
       {users && (
-        <div
+        <Card
           style={{
             height: "100vh",
             width: "100%",
@@ -90,7 +90,7 @@ export default function Users() {
               checkboxSelection
             />
           </div>
-        </div>
+        </Card>
       )}
 
       {switchRole && (

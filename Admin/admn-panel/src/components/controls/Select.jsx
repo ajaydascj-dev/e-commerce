@@ -26,10 +26,10 @@ const Select = ({ options, name, value, handleChange, LabelText }) => {
       >
         <MenuItem value=""></MenuItem>
         {options.map((item) => {
-          const { id, caegory } = item;
+          const { id, category } = item;
           return (
             <MenuItem key={id} value={item.id}>
-              {caegory}
+              {category}
             </MenuItem>
           );
         })}
