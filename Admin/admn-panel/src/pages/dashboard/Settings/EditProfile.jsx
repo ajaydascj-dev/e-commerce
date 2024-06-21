@@ -5,29 +5,29 @@ import { toast } from "react-toastify";
 import { updateUser } from "../../../features/users/userSlice";
 
 function EditProfile() {
-  const { user } = useSelector((store) => store.user);
+  const { isLoading, user } = useSelector((store) => store.user);
   const dispatch = useDispatch();
   const intialState = {
     username: user?.username,
     email: user?.email,
-    address : user?.address,
-    password : ''
+    address: user?.address,
+    password: "",
   };
   const { values, handleChange } = useForm(intialState);
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const { email, username , address ,password } = values;
+    const { email, username, address, password } = values;
     if (!email || !username) {
       toast.error("Email and Username must be there");
       return;
     }
-    if(password) {
-      dispatch(updateUser({email , username , address ,password}));
-      
-      return
+    if (password) {
+      dispatch(updateUser({ email, username, address, password }));
+
+      return;
     }
-    dispatch(updateUser({email , username , address }))
+    dispatch(updateUser({ email, username, address }));
   };
   return (
     <Wrapper>
@@ -47,7 +47,7 @@ function EditProfile() {
           handleChange={handleChange}
           value={values.email}
         />
-          <FormRow
+        <FormRow
           type="text"
           name="address"
           LabelText="Address"
@@ -61,7 +61,11 @@ function EditProfile() {
           handleChange={handleChange}
           value={values.password}
         />
-        <Button text="Update" type="submit" />
+        <Button
+          text={isLoading ? "loading..." : "Update"}
+          type="submit"
+          disabled={isLoading}
+        />
       </form>
     </Wrapper>
   );

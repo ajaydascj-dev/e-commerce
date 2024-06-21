@@ -6,8 +6,7 @@ import { BadRequestError, UnauthorizedError } from "../errors/index.js";
 
 // New User
 const registerUser = asyncHandler(async (req, res) => {
-  const { username, email, password ,address} = req.body;
- console.log(address)
+  const { username, email, password, address } = req.body;
   if (!username || !email || !password || !address) {
     throw new BadRequestError("Please fill all the input fields.");
   }
@@ -44,7 +43,7 @@ const loginUser = asyncHandler(async (req, res) => {
     );
 
     if (isPasswordValid) {
-     const token =  generateToken(res, existingUser._id, existingUser.isAdmin);
+      const token = generateToken(res, existingUser._id, existingUser.isAdmin);
 
       res.status(201).json({
         user: {
@@ -52,12 +51,11 @@ const loginUser = asyncHandler(async (req, res) => {
           username: existingUser.username,
           email: existingUser.email,
           isAdmin: existingUser.isAdmin,
-          address : existingUser.address,
-          createdAt : existingUser.createdAt,
-          updatedAt : existingUser.updatedAt,
-          token 
+          address: existingUser.address,
+          createdAt: existingUser.createdAt,
+          updatedAt: existingUser.updatedAt,
+          token,
         },
-    
       });
       return;
     } else {
@@ -71,7 +69,6 @@ const loginUser = asyncHandler(async (req, res) => {
 
 // Logout User
 const userLogout = asyncHandler(async (req, res) => {
-
   res.status(200).json({
     message: "Logged out successfully",
   });
@@ -104,7 +101,6 @@ const userById = asyncHandler(async (req, res) => {
 
 // update user by id
 const updateUser = asyncHandler(async (req, res) => {
-
   const user = await userServices.findbyId(req.user.userId);
 
   if (user) {
@@ -118,20 +114,19 @@ const updateUser = asyncHandler(async (req, res) => {
       const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
       user.password = hashedPassword;
     }
-   
-    
+
     const updatedUser = await user.save();
-    const token =  generateToken(res, updatedUser._id, updatedUser.isAdmin);
+    const token = generateToken(res, updatedUser._id, updatedUser.isAdmin);
     res.status(200).json({
       user: {
         _id: updatedUser._id,
         username: updatedUser.username,
         email: updatedUser.email,
         isAdmin: updatedUser.isAdmin,
-        address : updatedUser.address,
-        createdAt : updatedUser.createdAt,
-        updatedAt : updatedUser.updatedAt,
-        token 
+        address: updatedUser.address,
+        createdAt: updatedUser.createdAt,
+        updatedAt: updatedUser.updatedAt,
+        token,
       },
     });
   } else {
@@ -156,12 +151,12 @@ const removeUser = asyncHandler(async (req, res) => {
   }
 });
 
-const updateRole = asyncHandler(async(req,res) => {
-  const id = req.params.id ;
+const updateRole = asyncHandler(async (req, res) => {
+  const id = req.params.id;
   const user = await userServices.findbyId(id);
 
-  if(user) {
-    console.log(req.body.isAdmin)
+  if (user) {
+    console.log(req.body.isAdmin);
     user.isAdmin = req.body.isAdmin;
 
     const updatedUser = await user.save();
@@ -172,17 +167,15 @@ const updateRole = asyncHandler(async(req,res) => {
         username: updatedUser.username,
         email: updatedUser.email,
         isAdmin: updatedUser.isAdmin,
-        address : updatedUser.address,
-        createdAt : updatedUser.createdAt,
-        updatedAt : updatedUser.updatedAt, 
+        address: updatedUser.address,
+        createdAt: updatedUser.createdAt,
+        updatedAt: updatedUser.updatedAt,
       },
-  });
-
+    });
   } else {
     throw new BadRequestError("User Not Found");
   }
-
-})
+});
 export {
   registerUser,
   loginUser,
@@ -191,5 +184,5 @@ export {
   userById,
   updateUser,
   removeUser,
-  updateRole
+  updateRole,
 };

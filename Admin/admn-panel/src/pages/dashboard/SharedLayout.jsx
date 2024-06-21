@@ -1,9 +1,8 @@
 import * as React from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import { SideNav  } from "../../components";
+import { SideNav } from "../../components";
 import { Outlet } from "react-router-dom";
-
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",

@@ -25,8 +25,12 @@ export default function Settings() {
               <Tab label="Edit" value="2" />
             </TabList>
           </Box>
-          <TabPanel value="1"><Profile/></TabPanel>
-          <TabPanel value="2"><EditProfile/></TabPanel>
+          <TabPanel value="1">
+            <Profile />
+          </TabPanel>
+          <TabPanel value="2">
+            <EditProfile />
+          </TabPanel>
         </TabContext>
       </Box>
     </Card>

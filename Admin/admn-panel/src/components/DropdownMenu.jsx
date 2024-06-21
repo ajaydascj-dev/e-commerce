@@ -7,9 +7,11 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import Logout from "@mui/icons-material/Logout";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../features/users/userSlice";
 import { toast } from "react-toastify";
+import nameFormater from "../utils/nameFormater";
+
 
 export default function DropdownMenu() {
   const dispatch = useDispatch();
@@ -19,6 +21,7 @@ export default function DropdownMenu() {
     setAnchorEl(event.currentTarget);
   };
 
+  const {user} = useSelector((store) => store.user);
   const handleClose = () => {
     setAnchorEl(null);
  
@@ -40,7 +43,7 @@ export default function DropdownMenu() {
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-            <Avatar sx={{ width: 32, height: 32 }}>A</Avatar>
+            <Avatar sx={{ width: 32, height: 32 }}>{nameFormater(user.username)}</Avatar>
           </IconButton>
         </Tooltip>
       </Box>

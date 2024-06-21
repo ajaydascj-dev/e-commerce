@@ -17,5 +17,4 @@ const Links = [
   { id: 5, text: "Settings", path: "Settings", icon: <SettingsIcon /> },
 ];
 
-
-export default Links ;
+export default Links;

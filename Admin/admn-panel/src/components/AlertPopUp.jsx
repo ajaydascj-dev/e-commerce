@@ -1,14 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
 import { toggleAlertModal } from "../features/AlertModal/AlertModalSlice";
 import {
-  Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
-
+import Button from "./controls/Button";
 export default function AlertPopUp({
   alertHead,
   alertDesc,
@@ -44,17 +43,16 @@ export default function AlertPopUp({
             variant="outlined"
             color="warning"
             onClick={(e) => dispatch(toggleAlertModal())}
-          >
-            {disAgreeText}
-          </Button>
+            text={disAgreeText}
+          />
+
           <Button
             variant="contained"
             color="error"
             onClick={(e) => handleSubmit()}
             autoFocus
-          >
-            {agreeTxt}
-          </Button>
+            text={agreeTxt}
+          />
         </DialogActions>
       </Dialog>
     </>
