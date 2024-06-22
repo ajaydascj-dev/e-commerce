@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FormRow = ({ type, name, value, handleChange, LabelText }) => {
+const FormRow = ({ type, name, value, handleChange, LabelText ,...other}) => {
   const classes = useStyles();
   return (
     <div className="form-row">
@@ -18,6 +18,7 @@ const FormRow = ({ type, name, value, handleChange, LabelText }) => {
         value={value}
         name={name}
         onChange={handleChange}
+        {...other}
       />
     </div>
   );

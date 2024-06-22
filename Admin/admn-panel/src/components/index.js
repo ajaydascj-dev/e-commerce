@@ -9,5 +9,6 @@ export { default as DropMenu } from "./DropdownMenu";
 export { default as NavLinks } from "./NavLinks";
 export {default as TableMenu } from "./TableMenu"
 export {default as SlideComponent} from "./SlideComponent";
-export {default as ProductForm } from "./ProductsForm"
+export {default as ProductForm } from "./ProductsForm";
+export {default as RadioGroups} from "./controls/RadioGroup"
 
