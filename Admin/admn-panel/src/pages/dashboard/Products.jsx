@@ -16,7 +16,7 @@ const Products = () => {
          </Toolbar>
       </AppBar>
       
-      <Popup>
+      <Popup title="ADD PRODUCT">
          <ProductForm />
       </Popup>
    

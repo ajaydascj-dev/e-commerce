@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Button = ({ size, text, color, variant, handleSubmit,styles, ...other }) => {
+const Button = ({ size, text, color, variant,children, handleSubmit,styles, ...other }) => {
  
   const classes = useStyles();
   return (
@@ -20,7 +20,8 @@ const Button = ({ size, text, color, variant, handleSubmit,styles, ...other }) =
       {...other}
       className={classes.root}
     >
-      {text}
+      {text}  
+      {children}
     </MuiButton>
   );
 };

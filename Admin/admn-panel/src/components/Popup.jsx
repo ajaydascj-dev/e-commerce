@@ -5,7 +5,7 @@ const Popup = (props) => {
   return (
     <Dialog open={true} maxWidth="md">
       <DialogTitle >
-        <div>Title</div>
+        <div>{title}</div>
       </DialogTitle>
       <Divider/>
       <DialogContent>

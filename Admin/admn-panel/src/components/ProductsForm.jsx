@@ -1,9 +1,14 @@
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import FormRow from "./controls/FormRow";
 import Select from "./controls/Select";
 import RadioGroup from "./controls/RadioGroup";
 import Button from "./controls/Button";
-import { useForm, useFieldArray, useWatch } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
+
+import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
+import DeleteIcon from "@mui/icons-material/Delete";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import SmallPopup from "./SmallPopup";
 
 const radioItems = [
   { id: "featured", title: "Featured" },
@@ -12,26 +17,39 @@ const radioItems = [
 
 const ProductsForm = () => {
   const { register, handleSubmit, control } = useForm({
-    defaultValues : {
-      specifications : [{
-key : '',
-value:''
-
-      }]
-    }
+    defaultValues: {
+      specifications: [
+        {
+          key: "",
+          value: "",
+        },
+      ],
+    },
   });
   const { fields, append, remove } = useFieldArray({
     control,
     name: "specifications",
   });
-  console.log(fields)
+  const onSubmit = (data) => {
+    console.log(data);
+  };
   return (
-    <form>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={1}>
         <Grid item xs={6}>
-          <FormRow type="file" name="image" LabelText="" />
-          <FormRow type="text" name="name" LabelText="Name" />
-          <FormRow type="number" name="price" LabelText="Pirce in  INR" />
+          <FormRow type="file" name="image" register={register} />
+          <FormRow
+            type="text"
+            name="name"
+            LabelText="Name"
+            register={register}
+          />
+          <FormRow
+            type="number"
+            name="price"
+            LabelText="Pirce in  INR"
+            register={register}
+          />
         </Grid>
         <Grid item xs={6}>
           <Box sx={{ display: "flex", gap: "5px" }}>
@@ -42,45 +60,86 @@ value:''
               ]}
               name="category"
               LabelText="Category"
+              register={register}
             />
-            <Button styles={{ width: "10px" }} text="Add" />
+            <SmallPopup><AddCircleIcon /></SmallPopup>
+            {/* <Button styles={{minWidth: "none",width:"50px"}}   ></Button> */}
           </Box>
-          <RadioGroup name="featured" labelText="Featured" items={radioItems} />
+          <RadioGroup
+            name="featured"
+            LabelText="Featured"
+            items={radioItems}
+            register={register}
+          />
           <FormRow
             type="number"
             name="saleprice"
             LabelText="Sale price in  INR"
+            register={register}
           />
         </Grid>
       </Grid>
       {/*Specifications */}
-
+      <Box sx={{ display: "flex", alignItems: "center", width: "20%" }}>
+        <Typography>Specifications</Typography>{" "}
+        <Button
+          onClick={() => append({ key: "", value: "" })}
+          style={{
+            background: "transparent",
+            border: "none",
+            boxShadow: "none",
+          }}
+        >
+          {" "}
+          <PlaylistAddIcon sx={{ color: "#1976a2" }} />
+        </Button>
+      </Box>
       {fields.map((field, index) => {
-
         return (
-        <Grid container spacing={1} key={field.id}>
-          <Grid item xs={6}>
-            <FormRow labelText="key" placeholder="value" {...register(`specifications.${index}.key`)} />
-          </Grid>
+          <Grid container spacing={1} key={field.id}>
+            <Grid item xs={6}>
+              <FormRow
+                LabelText="Key"
+                placeholder="key"
+                register={register}
+                name={`specifications[${index}].key`}
+              />
+            </Grid>
 
-          <Grid item xs={6}>
-            <Box sx={{ display: "flex", gap: "5px" }}>
-          <FormRow  {...register(`specifications.${index}.value`)} labelText="value"/>
-          <Button onClick={()  => {remove(index)}} text="" size="small" style={{ width: "10px" }}/>
-          </Box>
-        </Grid> 
-     
-        </Grid>)
+            <Grid item xs={6}>
+              <Box sx={{ display: "flex", gap: "5px" }}>
+                <FormRow
+                  register={register}
+                  name={`specifications[${index}].value`}
+                  LabelText="Value"
+                  placeholder="value"
+                />
+                <Button
+                  onClick={() => {
+                    remove(index);
+                  }}
+                  size="small"
+                  style={{ width: "15px", height: "55px" }}
+           
+                >
+                  {" "}
+                  <DeleteIcon  />
+                </Button>
+              </Box>
+            </Grid>
+          </Grid>
+        );
       })}
-      {/*
-        */}
-       <Button onClick={() => append({ key: "" ,value : ""})} text="ADD Specifications"/>
+
       <FormRow
         type="text"
         name="description"
         LabelText="Description"
         multiline={true}
+        register={register}
       />
+
+      <Button type="submit" text="submit" />
     </form>
   );
 };

@@ -4,7 +4,7 @@ import {
   MenuItem,
   Select as MuiSelect,
 } from "@mui/material";
-import SelectInput from "@mui/material/Select/SelectInput";
+
 import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
@@ -13,7 +13,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Select = ({ options, name, value, handleChange, LabelText }) => {
+const Select = ({
+  options,
+  name,
+  value,
+  handleChange,
+  LabelText,
+  register,
+}) => {
   const classes = useStyles();
   return (
     <FormControl variant="outlined" className={classes.root}>
@@ -23,6 +30,7 @@ const Select = ({ options, name, value, handleChange, LabelText }) => {
         name={name}
         value={value}
         onChange={handleChange}
+        {...(register ? register(name) : {})}
       >
         <MenuItem value=""></MenuItem>
         {options.map((item) => {
