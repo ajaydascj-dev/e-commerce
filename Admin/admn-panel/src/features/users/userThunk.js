@@ -1,4 +1,5 @@
-import userFetch from "../../utils/axios";
+
+import { userFetch } from "../../utils/axios";
 import { logoutUser } from "./userSlice";
 
 export const loginUserThunk = async (url, user, thunkAPI) => {
@@ -37,6 +38,10 @@ export const allUsersThunk = async (url, thunkAPI) => {
     return resp.data;
   } catch (error) {
     console.log(error);
+    if (error.response.status === 401) {
+      thunkAPI.dispatch(logoutUser());
+      return thunkAPI.rejectWithValue("UnAuthorized Logging out ....");
+    }
     return thunkAPI.rejectWithValue(error.response.data.message);
   }
 };
@@ -55,6 +60,10 @@ export const updateRoleThunk = async (url, role, thunkAPI) => {
     return resp.data;
   } catch (error) {
     console.log(error);
+    if (error.response.status === 401) {
+      thunkAPI.dispatch(logoutUser());
+      return thunkAPI.rejectWithValue("UnAuthorized Logging out ....");
+    }
     return thunkAPI.rejectWithValue(error.response.data.message);
   }
 };
@@ -73,6 +82,10 @@ export const deleteUserThunk = async (url, thunkAPI) => {
     return resp.data;
   } catch (error) {
     console.log(error);
+    if (error.response.status === 401) {
+      thunkAPI.dispatch(logoutUser());
+      return thunkAPI.rejectWithValue("UnAuthorized Logging out ....");
+    }
     return thunkAPI.rejectWithValue(error.response.data.message);
   }
 };

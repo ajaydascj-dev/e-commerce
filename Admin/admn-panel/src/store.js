@@ -12,6 +12,8 @@ import {
     REGISTER,
   } from 'redux-persist'
 import AlertModalSlice from "./features/AlertModal/AlertModalSlice";
+import categorySlice from "./features/category/categorySlice";
+import productSlice from "./features/Products/productSlice";
 
 
 const persistConfig = {
@@ -22,7 +24,9 @@ const persistConfig = {
 
 const reducer = combineReducers({
     user : userSlice ,
-    alert : AlertModalSlice
+    alert : AlertModalSlice,
+    category : categorySlice,
+    products : productSlice,
     
 })
 

@@ -1,7 +1,13 @@
 import axios from "axios";
 
-const userFetch = axios.create({
+export const userFetch = axios.create({
   baseURL: "http://localhost:3000/api/v1/user",
 });
 
-export default userFetch;
+export const categoryFetch = axios.create({
+  baseURL : "http://localhost:3000/api/v1/categories"
+}) ;
+
+export const productFetch = axios.create({
+  baseURL : "http://localhost:3000/api/v1/products/"
+})

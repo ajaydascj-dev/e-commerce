@@ -5,6 +5,7 @@ import cors from "cors";
 import { connectDb } from "./config/dbConnection.js";
 import userRoute from "./routes/user.js";
 import categoryRoute from "./routes/categories.js";
+import productRoute from "./routes/products.js"
 import { errorHandler } from "./middlewares/errorHandler.js";
 import { authenticate, authorizeAdmin } from "./middlewares/authMiddleware.js";
 
@@ -22,6 +23,7 @@ app.use(cookies());
 // routers
 app.use("/api/v1/user/", userRoute);
 app.use("/api/v1/categories/", authenticate, authorizeAdmin, categoryRoute);
+app.use("/api/v1/products/" , productRoute)
 app.use(errorHandler);
 
 (await connectDb()) &&

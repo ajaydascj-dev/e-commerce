@@ -1,4 +1,5 @@
 import {
+  Button,
   FormControl,
   InputLabel,
   MenuItem,
@@ -6,6 +7,8 @@ import {
 } from "@mui/material";
 
 import { makeStyles } from "@mui/styles";
+import { useState } from "react";
+import FormRow from "./FormRow";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,6 +25,7 @@ const Select = ({
   register,
 }) => {
   const classes = useStyles();
+  const [edit ,setEdit ] = useState(true)
   return (
     <FormControl variant="outlined" className={classes.root}>
       <InputLabel>{LabelText}</InputLabel>
@@ -32,13 +36,14 @@ const Select = ({
         onChange={handleChange}
         {...(register ? register(name) : {})}
       >
-        <MenuItem value=""></MenuItem>
+      
         {options.map((item) => {
-          const { id, category } = item;
+          const { _id, name } = item;
           return (
-            <MenuItem key={id} value={item.id}>
-              {category}
-            </MenuItem>
+            
+            <MenuItem key={_id} value={_id} onDoubleClick={() => {setEdit(false)}}>
+              {name} 
+            </MenuItem> 
           );
         })}
       </MuiSelect>

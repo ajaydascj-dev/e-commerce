@@ -9,13 +9,19 @@ import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import SmallPopup from "./SmallPopup";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getCategories } from "../features/category/categorySlice";
 
 const radioItems = [
   { id: "featured", title: "Featured" },
   { id: "notfeatured", title: "Not-Featured" },
 ];
 
+
 const ProductsForm = () => {
+  const {category} = useSelector((store) => store.category);
+  const dispatch = useDispatch();
   const { register, handleSubmit, control } = useForm({
     defaultValues: {
       specifications: [
@@ -31,8 +37,19 @@ const ProductsForm = () => {
     name: "specifications",
   });
   const onSubmit = (data) => {
-    console.log(data);
+    const {image , ...custom } = data ;
+    
+    const reader = new FileReader() ;
+    reader.readAsDataURL(data.image[0]);
+    reader.onloadend = () => {
+      custom.image = reader.result;
+      console.log(custom)
+    }
   };
+
+  useEffect(() => {
+    dispatch(getCategories())
+  },[])
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={1}>
@@ -54,10 +71,7 @@ const ProductsForm = () => {
         <Grid item xs={6}>
           <Box sx={{ display: "flex", gap: "5px" }}>
             <Select
-              options={[
-                { id: 1, category: "TOY" },
-                { id: 2, category: "CAR" },
-              ]}
+              options={category}
               name="category"
               LabelText="Category"
               register={register}

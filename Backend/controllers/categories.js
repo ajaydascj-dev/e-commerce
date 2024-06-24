@@ -4,7 +4,7 @@ import categoryServices from "../services/categories.js";
 const newCategory = asyncHandler(async (req, res) => {
   const { name } = req.body;
   if (!name) throw new Error("Category name is required");
-
+  console.log(name)
   const newCategory = await categoryServices.addCategory(req.body);
 
   res.status(201).json({
