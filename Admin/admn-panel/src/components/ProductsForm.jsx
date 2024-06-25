@@ -12,10 +12,11 @@ import SmallPopup from "./SmallPopup";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategories } from "../features/category/categorySlice";
+import { addProduct } from "../features/Products/productSlice";
 
 const radioItems = [
-  { id: "featured", title: "Featured" },
-  { id: "notfeatured", title: "Not-Featured" },
+  { id: true, title: "Featured" },
+  { id: false, title: "Not-Featured" },
 ];
 
 
@@ -37,19 +38,20 @@ const ProductsForm = () => {
     name: "specifications",
   });
   const onSubmit = (data) => {
-    const {image , ...custom } = data ;
-    
+    const {image , ...product } = data ;
+     console.log(product)
     const reader = new FileReader() ;
     reader.readAsDataURL(data.image[0]);
     reader.onloadend = () => {
-      custom.image = reader.result;
-      console.log(custom)
+      product.image = reader.result;
+      dispatch(addProduct(product)) ;
     }
   };
 
   useEffect(() => {
     dispatch(getCategories())
   },[])
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={1}>
@@ -72,7 +74,7 @@ const ProductsForm = () => {
           <Box sx={{ display: "flex", gap: "5px" }}>
             <Select
               options={category}
-              name="category"
+              name="categoryID"
               LabelText="Category"
               register={register}
             />

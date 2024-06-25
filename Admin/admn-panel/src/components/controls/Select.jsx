@@ -37,7 +37,7 @@ const Select = ({
         {...(register ? register(name) : {})}
       >
       
-        {options.map((item) => {
+        {options?.map((item) => {
           const { _id, name } = item;
           return (
             

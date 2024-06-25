@@ -9,6 +9,10 @@ const productSchema = new mongoose.Schema({
     type: Number,
     required: [true, "price is required"],
   },
+  saleprice : {
+    type : Number ,
+    required : [true, "saleprice is required"]
+  },
   image: {
     type: String,
     required: [true, "image is required"],
@@ -30,7 +34,7 @@ const productSchema = new mongoose.Schema({
     required: [true, "description is required"],
   },
   categoryID: {
-    type: Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "categories",
     required: [true, "category id is required"],
   },
