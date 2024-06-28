@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../features/users/userSlice";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import GoogleIcon from '@mui/icons-material/Google';
 
 const intialState = {
   email: "",
@@ -17,6 +18,10 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user, isLoading } = useSelector((store) => store.user);
+  const googleLogin = () => {
+  
+window.open("http://localhost:3000/api/v1/login/google" ,"_blank","width=500,height=600")     
+  }
   const onSubmit = (e) => {
     e.preventDefault();
     const { email, password } = values;
@@ -60,9 +65,14 @@ const Login = () => {
           type="submit"
           disabled={isLoading}
         />
-
+           <Button
+          text="Login with"
+          styles={{marginTop : "5px"}}
+          onClick = {googleLogin}
+        ><GoogleIcon/></Button>
         <p>Not a member please register with our shopify site</p>
       </form>
+   
     </Wrapper>
   );
 };

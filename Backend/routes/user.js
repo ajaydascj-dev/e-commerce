@@ -18,6 +18,7 @@ router
   .post(registerUser)
   .get(authenticate, authorizeAdmin, listUsers);
 router.route("/auth/login").post(loginUser);
+
 router.route("/auth/logout").post(userLogout);
 router
   .route("/auth/update")

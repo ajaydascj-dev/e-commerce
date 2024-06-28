@@ -67,7 +67,7 @@ export default function SmallPopup({children}) {
       <Popper id={id} open={open} anchorEl={anchorEl} transition  sx={{ zIndex: 1301 }}>
         {({ TransitionProps }) => (
           <Fade {...TransitionProps}>
-            <Card sx={{ border: 1, p: 1, bgcolor: 'background.paper' , border:"none" , minWidth : "300px"}}>
+            <Card sx={{ p: 1, bgcolor: 'background.paper' , border:"none" , minWidth : "300px"}}>
               <Typography>Add Category</Typography>
               <Divider/>
               <form onSubmit={handleSubmit(onSubmit)}>

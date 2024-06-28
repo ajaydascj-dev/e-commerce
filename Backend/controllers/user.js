@@ -176,6 +176,8 @@ const updateRole = asyncHandler(async (req, res) => {
     throw new BadRequestError("User Not Found");
   }
 });
+
+
 export {
   registerUser,
   loginUser,
@@ -185,4 +187,5 @@ export {
   updateUser,
   removeUser,
   updateRole,
+  
 };
