@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../features/users/userSlice";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import GoogleIcon from '@mui/icons-material/Google';
+import GoogleIcon from "@mui/icons-material/Google";
 
 const intialState = {
   email: "",
@@ -19,11 +19,11 @@ const Login = () => {
   const navigate = useNavigate();
   const { user, isLoading } = useSelector((store) => store.user);
   const googleLogin = () => {
-  
-window.open("http://localhost:3000/api/v1/login/google" ,"_blank","width=500,height=600")     
-  }
+    window.open("http://localhost:3000/api/v1/login/google", "_self");
+  };
   const onSubmit = (e) => {
     e.preventDefault();
+
     const { email, password } = values;
     if (!email || !password) {
       toast.error("Please fill out all fields");
@@ -35,6 +35,13 @@ window.open("http://localhost:3000/api/v1/login/google" ,"_blank","width=500,hei
   };
 
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const errorDataString = params.get("error");
+    if (errorDataString) {
+      params.delete("error");
+      toast.error(errorDataString);
+    }
+
     if (user) {
       setTimeout(() => {
         navigate("/");
@@ -65,14 +72,15 @@ window.open("http://localhost:3000/api/v1/login/google" ,"_blank","width=500,hei
           type="submit"
           disabled={isLoading}
         />
-           <Button
+        <Button
           text="Login with"
-          styles={{marginTop : "5px"}}
-          onClick = {googleLogin}
-        ><GoogleIcon/></Button>
+          styles={{ marginTop: "5px", background: " #454545", gap: "5px" }}
+          onClick={googleLogin}
+        >
+          <GoogleIcon />
+        </Button>
         <p>Not a member please register with our shopify site</p>
       </form>
-   
     </Wrapper>
   );
 };

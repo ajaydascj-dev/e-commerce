@@ -10,6 +10,9 @@ import {
   Orders,
   Settings,
 } from "./pages/dashboard";
+import { GoogleCallBack } from "./components";
+
+
 
 function App() {
   return (
@@ -32,6 +35,7 @@ function App() {
         <Route path="landing" element={<Landing />} />
         <Route path="Login" element={<Login />} />
         <Route path="*" element={<Error />} />
+        <Route path="api/v1/auth/google/callback" element={ <GoogleCallBack />} />
       </Routes>
       <ToastContainer position="top-center" />
     </BrowserRouter>

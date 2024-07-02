@@ -15,7 +15,7 @@ passport.use(
       scope: ["profile", "email"],
     },
     async (req, accessToken, refreshToken, profile, cb) => {
-      console.log(profile) ;
+      // console.log(profile) ;
       try {
         let user = await userServices.existingUser(profile.emails[0].value);
         if (user) {

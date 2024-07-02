@@ -69,7 +69,22 @@ const userSlice = createSlice({
     closeSlide: (state) => {
       state.slideOpened = false;
     },
+
+    setUser : (state,{payload}) => {
+      console.log(payload)
+      const newUser = {...payload._doc } ;
+      newUser.token = payload.token
+      console.log(newUser)
+      if (newUser.isAdmin) {
+        state.user = newUser;
+        toast.success(`Welcome Back ${newUser.username}`);
+      } else {
+        toast.error(`You are not authorized`);
+      }
+       
+    },
   },
+
 
   extraReducers: (builder) => {
     builder
@@ -179,5 +194,5 @@ const userSlice = createSlice({
   },
 });
 
-export const { logoutUser, openSlide, closeSlide } = userSlice.actions;
+export const { logoutUser, openSlide, closeSlide ,setUser } = userSlice.actions;
 export default userSlice.reducer;
