@@ -38,8 +38,8 @@ const Login = () => {
     const params = new URLSearchParams(window.location.search);
     const errorDataString = params.get("error");
     if (errorDataString) {
-      params.delete("error");
       toast.error(errorDataString);
+      params.delete("error");
     }
 
     if (user) {

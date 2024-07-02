@@ -4,6 +4,7 @@ import { setUser } from "../features/users/userSlice";
 import { useNavigate } from "react-router-dom";
 import { Box, LinearProgress } from "@mui/material";
 import Logo from "./Logo";
+import { toast } from "react-toastify";
 
 const GoogleCallBack = () => {
   const dispatch = useDispatch();
@@ -17,9 +18,14 @@ const GoogleCallBack = () => {
         if (userDataString) {
           const userData = JSON.parse(decodeURIComponent(userDataString));
           // Dispatch action to set user data in Redux
-          // console.log(userData)
-          dispatch(setUser(userData));
+          console.log(userData._doc);
+          if (!userData._doc.isAdmin) {
+            navigate("/login");
+          } else {
+            dispatch(setUser(userData));
+          }
         } else {
+          toast.error("Not Authorized");
           console.error("User data not found in URL parameters");
         }
       } catch (error) {
@@ -28,7 +34,6 @@ const GoogleCallBack = () => {
     };
 
     fetchUserData();
-
   }, []);
   useEffect(() => {
     if (user) {
