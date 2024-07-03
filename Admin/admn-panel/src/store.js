@@ -14,6 +14,7 @@ import {
 import AlertModalSlice from "./features/AlertModal/AlertModalSlice";
 import categorySlice from "./features/category/categorySlice";
 import productSlice from "./features/Products/productSlice";
+import PopupSlice from "./features/Popup/PopupSlice";
 
 
 const persistConfig = {
@@ -27,6 +28,7 @@ const reducer = combineReducers({
     alert : AlertModalSlice,
     category : categorySlice,
     products : productSlice,
+    popup : PopupSlice,
     
 })
 

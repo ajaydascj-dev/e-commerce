@@ -58,11 +58,11 @@ export default function Users() {
 
   const dispach = useDispatch();
 
+  const { users, isLoading } = useSelector((store) => store.user);
+
   React.useEffect(() => {
     dispach(allUsers());
   }, []);
-
-  const { users, isLoading } = useSelector((store) => store.user);
 
   return (
     <>

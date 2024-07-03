@@ -7,21 +7,23 @@ import { useForm, useFieldArray } from "react-hook-form";
 
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 import DeleteIcon from "@mui/icons-material/Delete";
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 import SmallPopup from "./SmallPopup";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategories } from "../features/category/categorySlice";
 import { addProduct } from "../features/Products/productSlice";
+import { togglePopupModal } from "../features/Popup/PopupSlice";
+import Checkbox from "./controls/Checkbox";
 
 const radioItems = [
   { id: true, title: "Featured" },
   { id: false, title: "Not-Featured" },
 ];
 
-
 const ProductsForm = () => {
-  const {category} = useSelector((store) => store.category);
+  const { user } = useSelector((store) => store.user);
+  const { category } = useSelector((store) => store.category);
   const dispatch = useDispatch();
   const { register, handleSubmit, control } = useForm({
     defaultValues: {
@@ -38,24 +40,28 @@ const ProductsForm = () => {
     name: "specifications",
   });
   const onSubmit = (data) => {
-    const {image , ...product } = data ;
-     console.log(product)
-    const reader = new FileReader() ;
+    const { image, ...product } = data;
+    console.log(product);
+    const reader = new FileReader();
     reader.readAsDataURL(data.image[0]);
     reader.onloadend = () => {
       product.image = reader.result;
-      dispatch(addProduct(product)) ;
-    }
+      console.log(product);
+      // dispatch(addProduct(product)) ;
+    };
   };
 
+  const closeForm = () => {
+    dispatch(togglePopupModal())
+  }
   useEffect(() => {
-    dispatch(getCategories())
-  },[])
+    dispatch(getCategories());
+  }, []);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={1}>
-        <Grid item xs={6}>
+        <Grid item xs={user.isSuperAdmin ? 6 : 12}>
           <FormRow type="file" name="image" register={register} />
           <FormRow
             type="text"
@@ -70,7 +76,7 @@ const ProductsForm = () => {
             register={register}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={user.isSuperAdmin ? 6 : 12}>
           <Box sx={{ display: "flex", gap: "5px" }}>
             <Select
               options={category}
@@ -78,21 +84,27 @@ const ProductsForm = () => {
               LabelText="Category"
               register={register}
             />
-            <SmallPopup><AddCircleIcon /></SmallPopup>
-            {/* <Button styles={{minWidth: "none",width:"50px"}}   ></Button> */}
+
+            <SmallPopup>
+              <AddCircleIcon />
+            </SmallPopup>
           </Box>
-          <RadioGroup
-            name="featured"
-            LabelText="Featured"
-            items={radioItems}
-            register={register}
-          />
-          <FormRow
-            type="number"
-            name="saleprice"
-            LabelText="Sale price in  INR"
-            register={register}
-          />
+          {user.isSuperAdmin && (
+            <>
+              <RadioGroup
+                name="featured"
+                LabelText="Featured"
+                items={radioItems}
+                register={register}
+              />
+              <FormRow
+                type="number"
+                name="saleprice"
+                LabelText="Sale price in  INR"
+                register={register}
+              />{" "}
+            </>
+          )}
         </Grid>
       </Grid>
       {/*Specifications */}
@@ -120,8 +132,9 @@ const ProductsForm = () => {
                 register={register}
                 name={`specifications[${index}].key`}
               />
+            
             </Grid>
-
+            
             <Grid item xs={6}>
               <Box sx={{ display: "flex", gap: "5px" }}>
                 <FormRow
@@ -136,10 +149,9 @@ const ProductsForm = () => {
                   }}
                   size="small"
                   style={{ width: "15px", height: "55px" }}
-           
                 >
                   {" "}
-                  <DeleteIcon  />
+                  <DeleteIcon />
                 </Button>
               </Box>
             </Grid>
@@ -154,8 +166,12 @@ const ProductsForm = () => {
         multiline={true}
         register={register}
       />
+      {user.isSuperAdmin && <Checkbox labelText="Verified" name="verified" register={register} checked = {false}/>}
 
+      <Box sx={{display:"flex" ,gap:"10px"}}>
+      <Button  text="cancel"  variant="outlined" color="success"  onClick={closeForm}/>
       <Button type="submit" text="submit" />
+      </Box>
     </form>
   );
 };

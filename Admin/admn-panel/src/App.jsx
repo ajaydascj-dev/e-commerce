@@ -1,5 +1,11 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Landing, Error, Login, ProtectedRoute } from "./pages";
+import {
+  Landing,
+  Error,
+  Login,
+  ProtectedRoute,
+  SuperAdminProtection,
+} from "./pages";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
@@ -9,10 +15,9 @@ import {
   Stats,
   Orders,
   Settings,
+  Adds,
 } from "./pages/dashboard";
 import { GoogleCallBack } from "./components";
-
-
 
 function App() {
   return (
@@ -27,15 +32,26 @@ function App() {
           }
         >
           <Route index element={<Stats />} />
-          <Route path="Users" element={<Users />} />
+          <Route
+            path="Users"
+            element={
+              <SuperAdminProtection>
+                <Users />
+              </SuperAdminProtection>
+            }
+          />
           <Route path="Products" element={<Products />} />
           <Route path="Orders" element={<Orders />} />
+          <Route path="Adds" element={<Adds />} />
           <Route path="Settings" element={<Settings />} />
         </Route>
         <Route path="landing" element={<Landing />} />
         <Route path="Login" element={<Login />} />
         <Route path="*" element={<Error />} />
-        <Route path="api/v1/auth/google/callback" element={ <GoogleCallBack />} />
+        <Route
+          path="api/v1/auth/google/callback"
+          element={<GoogleCallBack />}
+        />
       </Routes>
       <ToastContainer position="top-center" />
     </BrowserRouter>

@@ -67,7 +67,7 @@ export default function SlideComponent({ props }) {
             <Button
               variant="outlined"
               color="success"
-              text="CLose"
+              text="Close"
               onClick={() => {
                 dispach(closeSlide());
               }}

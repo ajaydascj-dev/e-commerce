@@ -4,3 +4,4 @@ export {default as Products } from './Products';
 export {default as Stats} from './Stats';
 export { default as Settings } from './Settings';
 export {default  as SharedLayout} from './SharedLayout';
+export {default as Adds} from './Adds' ;

@@ -329,7 +329,7 @@ ul {
 .logo {
   height: 50px;
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   gap: 5px;
   background: none;
   border: none;

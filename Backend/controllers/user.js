@@ -51,6 +51,7 @@ const loginUser = asyncHandler(async (req, res) => {
           username: existingUser.username,
           email: existingUser.email,
           isAdmin: existingUser.isAdmin,
+          isSuperAdmin: existingUser.isSuperAdmin,
           address: existingUser.address,
           createdAt: existingUser.createdAt,
           updatedAt: existingUser.updatedAt,
@@ -95,7 +96,7 @@ const userById = asyncHandler(async (req, res) => {
     });
   } else {
     res.status(404);
-    throw new Error("User not Found");
+    throw new BadRequestError("User not Found");
   }
 });
 
@@ -156,7 +157,6 @@ const updateRole = asyncHandler(async (req, res) => {
   const user = await userServices.findbyId(id);
 
   if (user) {
-    console.log(req.body.isAdmin);
     user.isAdmin = req.body.isAdmin;
 
     const updatedUser = await user.save();
@@ -177,7 +177,6 @@ const updateRole = asyncHandler(async (req, res) => {
   }
 });
 
-
 export {
   registerUser,
   loginUser,
@@ -187,5 +186,4 @@ export {
   updateUser,
   removeUser,
   updateRole,
-  
 };

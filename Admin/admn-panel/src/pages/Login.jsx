@@ -5,7 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../features/users/userSlice";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import GoogleIcon from "@mui/icons-material/Google";
+// import GoogleIcon from "@mui/icons-material/Google";
+import { FcGoogle } from "react-icons/fc";
+
 
 const intialState = {
   email: "",
@@ -74,10 +76,11 @@ const Login = () => {
         />
         <Button
           text="Login with"
-          styles={{ marginTop: "5px", background: " #454545", gap: "5px" }}
+          styles={{ marginTop: "10px", background: "#F2F2F2", gap: "5px" ,color:"black" ,border:"none"}}
+          variant="outlined"
           onClick={googleLogin}
         >
-          <GoogleIcon />
+          <FcGoogle style={{fontSize: "30px"}}/>
         </Button>
         <p>Not a member please register with our shopify site</p>
       </form>

@@ -4,7 +4,7 @@ import {
   Checkbox as MuiCheckbox,
 } from "@mui/material";
 
-const Checkbox = ({ name, labelText, value, handleChange }) => {
+const Checkbox = ({ name, labelText, value, handleChange,register,...others }) => {
   const convertToDefEventPara = (name, value) => {
     target: {
       name, value;
@@ -17,10 +17,12 @@ const Checkbox = ({ name, labelText, value, handleChange }) => {
           <MuiCheckbox
             name={name}
             color="primary"
+            {...(register ? register(name) : {})} 
             checked={value}
-            onChange={(e) =>
-              handleChange(convertToDefEventPara(name, e.target.checked))
-            }
+            {...others}
+            // onChange={(e) =>
+            //   handleChange(convertToDefEventPara(name, e.target.checked))
+            // }
           />
         }
         label={labelText}

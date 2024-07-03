@@ -107,8 +107,8 @@ const SideNav = () => {
           <DropMenu />
         </Toolbar>
       </AppBar>
-      <Drawer variant="permanent" open={open} >
-        <DrawerHeader sx={{ justifyContent: "center" , alignItems : 'center'}}>
+      <Drawer variant="permanent" open={open}>
+        <DrawerHeader sx={{ justifyContent: "center", alignItems: "center" }}>
           <Logo handleDrawer={setOpen} />
         </DrawerHeader>
         <Divider />

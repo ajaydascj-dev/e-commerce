@@ -9,13 +9,16 @@ const productSchema = new mongoose.Schema({
     type: Number,
     required: [true, "price is required"],
   },
-  saleprice : {
-    type : Number ,
-    required : [true, "saleprice is required"]
+  saleprice: {
+    type: Number,
+    default: 0,
   },
   image: {
     type: String,
     required: [true, "image is required"],
+  },
+  ads: {
+    type: String,
   },
   specifications: [
     {
@@ -39,6 +42,10 @@ const productSchema = new mongoose.Schema({
     required: [true, "category id is required"],
   },
   featured: {
+    type: Boolean,
+    default: false,
+  },
+  verified: {
     type: Boolean,
     default: false,
   },

@@ -3,6 +3,7 @@ import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
 import Inventory2Icon from "@mui/icons-material/Inventory2";
 import SettingsIcon from "@mui/icons-material/Settings";
 import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
+import SmartDisplayIcon from "@mui/icons-material/SmartDisplay";
 
 const Links = [
   { id: 1, text: "Stats", path: "/", icon: <QueryStatsIcon /> },
@@ -14,7 +15,8 @@ const Links = [
     path: "Orders",
     icon: <ProductionQuantityLimitsIcon />,
   },
-  { id: 5, text: "Settings", path: "Settings", icon: <SettingsIcon /> },
+  { id: 5, text: "Adds", path: "Adds", icon: <SmartDisplayIcon /> },
+  { id: 6, text: "Settings", path: "Settings", icon: <SettingsIcon /> },
 ];
 
 export default Links;
