@@ -41,6 +41,11 @@ const productSchema = new mongoose.Schema({
     ref: "categories",
     required: [true, "category id is required"],
   },
+  userID: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "users",
+    required: [true, "category id is required"],
+  },
   featured: {
     type: Boolean,
     default: false,

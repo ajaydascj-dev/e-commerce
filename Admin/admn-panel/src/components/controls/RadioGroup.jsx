@@ -12,7 +12,6 @@ const RadioGroup = ({ name, LabelText, value, onChange, items,register }) => {
       <FormLabel>{LabelText}</FormLabel>
       <MuiRadioGroup row name={name}   defaultValue="false"   onChange={onChange}>
         {items.map((item, index) => {
-          console.log(item.id)
             return (
           <FormControlLabel
             key={index}

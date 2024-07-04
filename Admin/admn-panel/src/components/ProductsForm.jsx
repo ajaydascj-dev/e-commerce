@@ -9,12 +9,13 @@ import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import SmallPopup from "./SmallPopup";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategories } from "../features/category/categorySlice";
 import { addProduct } from "../features/Products/productSlice";
 import { togglePopupModal } from "../features/Popup/PopupSlice";
 import Checkbox from "./controls/Checkbox";
+import { getSignatureForUpload, uploadFile } from "../utils/cloudinaryUploads";
 
 const radioItems = [
   { id: true, title: "Featured" },
@@ -25,7 +26,7 @@ const ProductsForm = () => {
   const { user } = useSelector((store) => store.user);
   const { category } = useSelector((store) => store.category);
   const dispatch = useDispatch();
-  const { register, handleSubmit, control } = useForm({
+  const { register, handleSubmit,control,formState: { errors } } = useForm({
     defaultValues: {
       specifications: [
         {
@@ -39,41 +40,71 @@ const ProductsForm = () => {
     control,
     name: "specifications",
   });
-  const onSubmit = (data) => {
+   console.log(errors)
+
+   const [categoryID, setCategoryID] = useState('');
+
+   const handleCategoryChange = (event) => {
+     console.log(event.target.value)
+     setCategoryID(event.target.value);
+   };
+  const onSubmit = async (data) => {
+   
     const { image, ...product } = data;
     console.log(product);
-    const reader = new FileReader();
-    reader.readAsDataURL(data.image[0]);
-    reader.onloadend = () => {
-      product.image = reader.result;
-      console.log(product);
-      // dispatch(addProduct(product)) ;
-    };
+
+    // try {
+    //   const { timestamp: imgTimestamp, signature: imgSignature } =
+    //     await getSignatureForUpload("products");
+    //     const imageUrl = await uploadFile(
+    //     image[0],
+    //     "image",
+    //     imgTimestamp,
+    //     imgSignature
+    //   );
+    //   product.image = imageUrl;
+    //   dispatch(addProduct(product));
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
 
   const closeForm = () => {
-    dispatch(togglePopupModal())
-  }
+    dispatch(togglePopupModal());
+  };
   useEffect(() => {
     dispatch(getCategories());
-  }, []);
+  }, [dispatch]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={1}>
         <Grid item xs={user.isSuperAdmin ? 6 : 12}>
-          <FormRow type="file" name="image" register={register} />
+          <FormRow
+            type="file"
+            name="image"
+            register={register}
+           
+            inputProps={{ accept: "image/png, image/gif, image/jpeg" }}
+          />
+
           <FormRow
             type="text"
             name="name"
             LabelText="Name"
             register={register}
+            errorReq ={{required : "Product name is required"}}
+            error={Boolean(errors.name)}
+            helperText={errors.name?.message}
           />
           <FormRow
             type="number"
             name="price"
             LabelText="Pirce in  INR"
             register={register}
+            errorReq ={{required : "Price is required"}}
+            error={Boolean(errors.price)}
+            helperText={errors.price?.message}
           />
         </Grid>
         <Grid item xs={user.isSuperAdmin ? 6 : 12}>
@@ -83,6 +114,9 @@ const ProductsForm = () => {
               name="categoryID"
               LabelText="Category"
               register={register}
+              // value={categoryID}
+              handleChange={handleCategoryChange}
+            
             />
 
             <SmallPopup>
@@ -132,9 +166,8 @@ const ProductsForm = () => {
                 register={register}
                 name={`specifications[${index}].key`}
               />
-            
             </Grid>
-            
+
             <Grid item xs={6}>
               <Box sx={{ display: "flex", gap: "5px" }}>
                 <FormRow
@@ -166,11 +199,18 @@ const ProductsForm = () => {
         multiline={true}
         register={register}
       />
-      {user.isSuperAdmin && <Checkbox labelText="Verified" name="verified" register={register} checked = {false}/>}
+      {user.isSuperAdmin && (
+        <Checkbox labelText="Verified" name="verified" register={register} />
+      )}
 
-      <Box sx={{display:"flex" ,gap:"10px"}}>
-      <Button  text="cancel"  variant="outlined" color="success"  onClick={closeForm}/>
-      <Button type="submit" text="submit" />
+      <Box sx={{ display: "flex", gap: "10px" }}>
+        <Button
+          text="cancel"
+          variant="outlined"
+          color="success"
+          onClick={closeForm}
+        />
+        <Button type="submit" text="submit" />
       </Box>
     </form>
   );

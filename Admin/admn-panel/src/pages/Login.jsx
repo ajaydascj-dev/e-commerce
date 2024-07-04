@@ -76,11 +76,11 @@ const Login = () => {
         />
         <Button
           text="Login with"
-          styles={{ marginTop: "10px", background: "#F2F2F2", gap: "5px" ,color:"black" ,border:"none"}}
+          styles={{ marginTop: "15px", background: "#F2F2F2", gap: "5px" ,color:"black" ,border:"none"}}
           variant="outlined"
           onClick={googleLogin}
         >
-          <FcGoogle style={{fontSize: "30px"}}/>
+          <FcGoogle style={{fontSize: "25px"}}/>
         </Button>
         <p>Not a member please register with our shopify site</p>
       </form>

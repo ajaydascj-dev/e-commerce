@@ -25,7 +25,7 @@ const Select = ({
   register,
 }) => {
   const classes = useStyles();
-  const [edit ,setEdit ] = useState(true)
+
   return (
     <FormControl variant="outlined" className={classes.root}>
       <InputLabel>{LabelText}</InputLabel>
@@ -38,11 +38,10 @@ const Select = ({
       >
       
         {options?.map((item) => {
-          const { _id, name } = item;
           return (
             
-            <MenuItem key={_id} value={_id} onDoubleClick={() => {setEdit(false)}}>
-              {name} 
+            <MenuItem key={item._id} value={item._id} >
+              {item.name} 
             </MenuItem> 
           );
         })}
