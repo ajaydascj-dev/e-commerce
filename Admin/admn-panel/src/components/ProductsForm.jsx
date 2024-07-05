@@ -114,7 +114,7 @@ const ProductsForm = () => {
               name="categoryID"
               LabelText="Category"
               register={register}
-              // value={categoryID}
+              value={categoryID}
               handleChange={handleCategoryChange}
             
             />

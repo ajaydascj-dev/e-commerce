@@ -1,5 +1,4 @@
 import {
-  Button,
   FormControl,
   InputLabel,
   MenuItem,
@@ -7,8 +6,6 @@ import {
 } from "@mui/material";
 
 import { makeStyles } from "@mui/styles";
-import { useState } from "react";
-import FormRow from "./FormRow";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,16 +30,14 @@ const Select = ({
         label={LabelText}
         name={name}
         value={value}
-        onChange={handleChange}
         {...(register ? register(name) : {})}
+        onChange={handleChange}
       >
-      
         {options?.map((item) => {
           return (
-            
-            <MenuItem key={item._id} value={item._id} >
-              {item.name} 
-            </MenuItem> 
+            <MenuItem key={item._id} value={item._id}>
+              {item.name}
+            </MenuItem>
           );
         })}
       </MuiSelect>
