@@ -5,7 +5,7 @@ import GeoLoaction from "../../components/GeoLoaction"
 const Stats = () => {
   return (
  <div>
-  <GeoLoaction/>
+ 
  </div>
   )
 }

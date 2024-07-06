@@ -340,3 +340,11 @@ ul {
 .logo h1 {
   margin-bottom: 0px;
 }
+
+.address {
+  padding:5px ;
+  background-color:#dbdcdd;
+  margin-bottom: 5px;
+  border-radius: 2px;
+
+}

@@ -16,6 +16,7 @@ import { addProduct } from "../features/Products/productSlice";
 import { togglePopupModal } from "../features/Popup/PopupSlice";
 import Checkbox from "./controls/Checkbox";
 import { getSignatureForUpload, uploadFile } from "../utils/cloudinaryUploads";
+import GeoLoaction from "./GeoLoaction";
 
 const radioItems = [
   { id: true, title: "Featured" },
@@ -26,7 +27,7 @@ const ProductsForm = () => {
   const { user } = useSelector((store) => store.user);
   const { category } = useSelector((store) => store.category);
   const dispatch = useDispatch();
-  const { register, handleSubmit,control,formState: { errors } } = useForm({
+  const { register, handleSubmit,control,setValue,formState: { errors } } = useForm({
     defaultValues: {
       specifications: [
         {
@@ -77,6 +78,7 @@ const ProductsForm = () => {
   }, [dispatch]);
 
   return (
+    
     <form onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={1}>
         <Grid item xs={user.isSuperAdmin ? 6 : 12}>
@@ -106,7 +108,9 @@ const ProductsForm = () => {
             error={Boolean(errors.price)}
             helperText={errors.price?.message}
           />
-        </Grid>
+
+ <GeoLoaction register={register} setValue={setValue} />
+        </Grid> 
         <Grid item xs={user.isSuperAdmin ? 6 : 12}>
           <Box sx={{ display: "flex", gap: "5px" }}>
             <Select
@@ -139,6 +143,13 @@ const ProductsForm = () => {
               />{" "}
             </>
           )}
+               <FormRow
+                type="number"
+                name="stock"
+                LabelText="Number of stock you have"
+                register={register}
+              />{" "}
+          
         </Grid>
       </Grid>
       {/*Specifications */}
@@ -212,7 +223,10 @@ const ProductsForm = () => {
         />
         <Button type="submit" text="submit" />
       </Box>
+      
     </form>
+    // <Geolocation register={register} setValue={setValue} />
+
   );
 };
 

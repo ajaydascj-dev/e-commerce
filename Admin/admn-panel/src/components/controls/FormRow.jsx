@@ -13,6 +13,7 @@ const FormRow = ({ type, name, value, handleChange, LabelText, register,errorReq
   return (
     <div className="form-row">
       <TextField
+     
         label={LabelText}
         type={type}
         className={classes.root}

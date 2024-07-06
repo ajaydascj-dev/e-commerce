@@ -27,6 +27,7 @@ const Select = ({
     <FormControl variant="outlined" className={classes.root}>
       <InputLabel>{LabelText}</InputLabel>
       <MuiSelect
+     
         label={LabelText}
         name={name}
         value={value}
