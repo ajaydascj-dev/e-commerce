@@ -59,20 +59,23 @@ const ProductsForm = () => {
     const { image, ...product } = data;
     console.log(product);
 
-    // try {
-    //   const { timestamp: imgTimestamp, signature: imgSignature } =
-    //     await getSignatureForUpload("products");
-    //     const imageUrl = await uploadFile(
-    //     image[0],
-    //     "image",
-    //     imgTimestamp,
-    //     imgSignature
-    //   );
-    //   product.image = imageUrl;
-    //   dispatch(addProduct(product));
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      const { timestamp: imgTimestamp, signature: imgSignature } =
+        await getSignatureForUpload("products");
+        const imageUrl = await uploadFile(
+        image[0],
+        "image",
+        imgTimestamp,
+        imgSignature
+      );
+      product.image = imageUrl;
+      if(!user.isSuperAdmin) {
+        product.userID=user._id
+      }
+      dispatch(addProduct(product));
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const closeForm = () => {

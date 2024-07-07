@@ -22,19 +22,14 @@ const generateSignature = asyncHandler(async(req,res) => {
 })
 
 const addProduct = asyncHandler(async (req, res) => {
-  // const { product } = req.body;
-  console.log(req.body)
-  // const imgUpload = await cloudinary.uploader.upload(image, {
-  //   folder: "products",
-  //   use_filename: true,
-  //   unique_filename: false,
-  //   overwrite: true,
-  // });
+    const result = await productServices.productAdd(req.body) ;
 
-  // if(imgUpload) {
-  //    newProduct.image = imgUpload. secure_url ;
-  //    const result = await productServices.productAdd(newProduct) ;
-  // }
+    res.status(201).json(
+      {
+        product : result
+      }
+    )
+
 });
 
 export { addProduct , generateSignature };
