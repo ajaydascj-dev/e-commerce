@@ -1,4 +1,4 @@
-import { TextField, Button, Stack } from "@mui/material";
+import { TextField, Button, Stack, FormControl, FormHelperText } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
@@ -7,9 +7,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FormRow = ({ type, name, value, handleChange, LabelText, register,errorReq,...other}) => {
+const FormRow = ({ type, name, value, handleChange, LabelText,  error,  helperText,register,errorReq,inputProps,...other}) => {
 
   const classes = useStyles();
+  if (type === "file") {
+    // Handling file input separately
+    return (
+      <div className="form-row">
+      <FormControl variant="outlined" className={classes.root} error={error}>
+        <TextField
+          type="file"
+          {...register(name, errorReq)}
+          {...inputProps}
+        />
+        <FormHelperText>{helperText}</FormHelperText>
+      </FormControl>
+      </div>
+    );
+  }
   return (
     <div className="form-row">
       <TextField
@@ -19,9 +34,12 @@ const FormRow = ({ type, name, value, handleChange, LabelText, register,errorReq
         className={classes.root}
         value={value}
         name={name}
-        {...(register ? register(name,errorReq) : {})} 
+        inputProps={{
+          ...(register ? register(name, errorReq) : {}), // Register with validation rules
+        }}
         onChange={handleChange}
-        // error={errors.name}
+        error={error}
+        helperText={helperText}
         {...other}
       />
     </div>

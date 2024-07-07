@@ -13,4 +13,4 @@ export { default as ProductForm } from "./ProductsForm";
 export { default as RadioGroups } from "./controls/RadioGroup";
 export { default as SmallPopup } from "./SmallPopup";
 export { default as GoogleCallBack } from "./GoogleCallBack";
-export {default as GeoLoaction} from "./GeoLoaction"
+export {default as GeoLoaction} from "./GeoLoaction";

@@ -6,7 +6,7 @@ import PlacesAutocomplete, {
 import FormRow from "./controls/FormRow";
 import { Card } from "@mui/material";
 
-const GeoLoaction = ({ register, setValue }) => {
+const GeoLoaction = ({ register, setValue ,errors }) => {
   const [place, setPlace] = useState("");
   const handleSelect = async (value) => {
 
@@ -32,7 +32,11 @@ const GeoLoaction = ({ register, setValue }) => {
           <div style={{position:"relative"}}>
             <FormRow
               LabelText="Place"
-              
+              name="place"
+              register={register}
+              errorReq={{ required: "Place is required" }}
+              error={Boolean(errors.place)}
+              helperText={errors.place?.message}
               {...getInputProps({
                 placeholder: "Search Places ...",
                 className: "location-search-input",
@@ -44,9 +48,8 @@ const GeoLoaction = ({ register, setValue }) => {
 
               className="autocomplete-dropdown-container"
               key={suggestions.index}
-              sx={{position:"absolute" ,zIndex:"10",top:"10",padding:"8px"}}
+              sx={{position:"absolute" ,zIndex:"10",top:"10"}}
             >
-              {console.log(suggestions)}
               {loading && <div>Loading...</div>}
               {suggestions.map((suggestion) => {
                 const className = suggestion.active
@@ -74,7 +77,7 @@ const GeoLoaction = ({ register, setValue }) => {
       </PlacesAutocomplete>
       <input type="hidden"   {...(register ? register('lat') : {})}  />
       <input type="hidden"   {...(register ? register("lng") : {})}  />
-      <input type="hidden"   {...(register ? register("place") : {})}  />
+      {/* <input type="hidden"   {...(register ? register("place") : {})}  /> */}
     </div>
   );
 };

@@ -44,7 +44,18 @@ const productSchema = new mongoose.Schema({
   userID: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "users",
-    required: [true, "category id is required"],
+  },
+  place : {
+    type : String,
+    required : [true ,"Place is required"]
+  },
+  lat : {
+    type : Number,
+    required : [true ,"Latitude is required"]
+  },
+  lng : {
+    type : Number,
+    required : [true ,"Longitude is required"]
   },
   featured: {
     type: Boolean,

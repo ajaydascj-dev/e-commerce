@@ -1,5 +1,6 @@
 import {
   FormControl,
+  FormHelperText,
   InputLabel,
   MenuItem,
   Select as MuiSelect,
@@ -20,18 +21,21 @@ const Select = ({
   handleChange,
   LabelText,
   register,
+  errors
 }) => {
   const classes = useStyles();
 
   return (
-    <FormControl variant="outlined" className={classes.root}>
+    <FormControl variant="outlined" className={classes.root} error={Boolean(errors[name])} >
       <InputLabel>{LabelText}</InputLabel>
       <MuiSelect
      
         label={LabelText}
         name={name}
         value={value}
-        {...(register ? register(name) : {})}
+        inputProps={{
+          ...(register ? register(name,{required:"Category is required"}) : {}), // assuming register is used for form libraries like React Hook Form
+        }}
         onChange={handleChange}
       >
         {options?.map((item) => {
@@ -42,6 +46,7 @@ const Select = ({
           );
         })}
       </MuiSelect>
+      <FormHelperText >{errors[name]?.message}</FormHelperText>
     </FormControl>
   );
 };

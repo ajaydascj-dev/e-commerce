@@ -27,7 +27,13 @@ const ProductsForm = () => {
   const { user } = useSelector((store) => store.user);
   const { category } = useSelector((store) => store.category);
   const dispatch = useDispatch();
-  const { register, handleSubmit,control,setValue,formState: { errors } } = useForm({
+  const {
+    register,
+    handleSubmit,
+    control,
+    setValue,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       specifications: [
         {
@@ -41,16 +47,15 @@ const ProductsForm = () => {
     control,
     name: "specifications",
   });
-   console.log(errors)
+  console.log(errors);
 
-   const [categoryID, setCategoryID] = useState('');
+  const [categoryID, setCategoryID] = useState("");
 
-   const handleCategoryChange = (event) => {
-     console.log(event.target.value)
-     setCategoryID(event.target.value);
-   };
+  const handleCategoryChange = (event) => {
+    console.log(event.target.value);
+    setCategoryID(event.target.value);
+  };
   const onSubmit = async (data) => {
-   
     const { image, ...product } = data;
     console.log(product);
 
@@ -78,24 +83,33 @@ const ProductsForm = () => {
   }, [dispatch]);
 
   return (
-    
     <form onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={1}>
         <Grid item xs={user.isSuperAdmin ? 6 : 12}>
-          <FormRow
+          {/* <FormRow
             type="file"
             name="image"
             register={register}
-           
             inputProps={{ accept: "image/png, image/gif, image/jpeg" }}
+            errorReq={{ required: "image  is required" }}
+            error={Boolean(errors.image)}
+            helperText={errors.image?.message}
+          /> */}
+          <FormRow
+            type="file"
+            name="image"
+            register={register} // Pass register from useForm hook
+            inputProps={{ accept: "image/png, image/gif, image/jpeg" }}
+            errorReq={{ required: "Image is required" }}
+            error={Boolean(errors.image)}
+            helperText={errors.image ? errors.image.message : ""}
           />
-
           <FormRow
             type="text"
             name="name"
             LabelText="Name"
             register={register}
-            errorReq ={{required : "Product name is required"}}
+            errorReq={{ required: "Product name is required" }}
             error={Boolean(errors.name)}
             helperText={errors.name?.message}
           />
@@ -104,13 +118,17 @@ const ProductsForm = () => {
             name="price"
             LabelText="Pirce in  INR"
             register={register}
-            errorReq ={{required : "Price is required"}}
+            errorReq={{ required: "Price is required" }}
             error={Boolean(errors.price)}
             helperText={errors.price?.message}
           />
 
- <GeoLoaction register={register} setValue={setValue} />
-        </Grid> 
+          <GeoLoaction
+            register={register}
+            setValue={setValue}
+            errors={errors}
+          />
+        </Grid>
         <Grid item xs={user.isSuperAdmin ? 6 : 12}>
           <Box sx={{ display: "flex", gap: "5px" }}>
             <Select
@@ -120,7 +138,7 @@ const ProductsForm = () => {
               register={register}
               value={categoryID}
               handleChange={handleCategoryChange}
-            
+              errors={errors}
             />
 
             <SmallPopup>
@@ -143,13 +161,15 @@ const ProductsForm = () => {
               />{" "}
             </>
           )}
-               <FormRow
-                type="number"
-                name="stock"
-                LabelText="Number of stock you have"
-                register={register}
-              />{" "}
-          
+          <FormRow
+            type="number"
+            name="stock"
+            LabelText="Number of stock you have"
+            register={register}
+            errorReq={{ required: "Stock number is required" }}
+            error={Boolean(errors.stock)}
+            helperText={errors.stock?.message}
+          />{" "}
         </Grid>
       </Grid>
       {/*Specifications */}
@@ -223,10 +243,7 @@ const ProductsForm = () => {
         />
         <Button type="submit" text="submit" />
       </Box>
-      
     </form>
-    // <Geolocation register={register} setValue={setValue} />
-
   );
 };
 
